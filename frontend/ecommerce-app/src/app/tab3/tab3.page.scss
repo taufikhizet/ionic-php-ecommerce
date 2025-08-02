@@ -1,9 +1,23 @@
 // Tab3 (Profile) - Purple Theme
+
+// Header specific overrides
+.profile-header.enhanced-header {
+  .header-actions-right {
+    ion-button {
+      --color: white;
+      
+      ion-icon {
+        color: #fbbf24; // Keep warning color for admin icon
+      }
+    }
+  }
+}
+
 .profile-section {
   padding: 20px;
 }
 
-.profile-header {
+.profile-info-header {
   text-align: center;
   margin-bottom: 30px;
   

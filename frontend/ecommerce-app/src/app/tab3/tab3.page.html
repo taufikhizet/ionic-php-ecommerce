@@ -1,4 +1,7 @@
 <div class="profile-header enhanced-header">
+  <div class="header-actions-left">
+    <!-- Space for future back button if needed -->
+  </div>
   <div class="brand-section">
     <div class="brand-icon">
       <ion-icon name="person-circle"></ion-icon>
@@ -8,12 +11,21 @@
       <p class="app-tagline">Manage your account</p>
     </div>
   </div>
+  <div class="header-actions-right">
+    <ion-button
+      *ngIf="isLoggedIn && currentUser?.role === 'admin'"
+      (click)="openAdmin()"
+      fill="clear"
+    >
+      <ion-icon name="shield-outline" color="warning"></ion-icon>
+    </ion-button>
+  </div>
 </div>
 
 <ion-content [fullscreen]="true">
   <!-- User Profile (when logged in) -->
   <div *ngIf="isLoggedIn && currentUser" class="profile-section">
-    <div class="profile-header">
+    <div class="profile-info-header">
       <div class="avatar">
         <ion-icon name="person-circle" size="large"></ion-icon>
       </div>
@@ -43,17 +55,6 @@
       <ion-item button>
         <ion-icon name="receipt-outline" slot="start"></ion-icon>
         <ion-label>Order History</ion-label>
-        <ion-icon name="chevron-forward" slot="end"></ion-icon>
-      </ion-item>
-
-      <!-- Admin Panel (only for admin users) -->
-      <ion-item
-        button
-        (click)="openAdmin()"
-        *ngIf="currentUser?.role === 'admin'"
-      >
-        <ion-icon name="shield-outline" slot="start" color="warning"></ion-icon>
-        <ion-label color="warning">Admin Panel</ion-label>
         <ion-icon name="chevron-forward" slot="end"></ion-icon>
       </ion-item>
 
