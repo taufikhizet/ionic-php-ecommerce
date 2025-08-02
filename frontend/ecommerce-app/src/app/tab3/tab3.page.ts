@@ -15,6 +15,7 @@ import {
   IonInput,
   IonTextarea,
   IonButton,
+  IonButtons,
   IonIcon,
   IonSpinner,
   ToastController,
@@ -43,9 +44,6 @@ import { User } from '../models/interfaces';
   imports: [
     CommonModule,
     FormsModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonSegment,
     IonSegmentButton,

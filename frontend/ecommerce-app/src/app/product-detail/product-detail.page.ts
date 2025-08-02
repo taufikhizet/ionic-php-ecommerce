@@ -15,7 +15,8 @@ import {
   eyeOutline,
   add,
   remove,
-  alertCircleOutline
+  alertCircleOutline,
+  cube
 } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
@@ -53,7 +54,8 @@ export class ProductDetailPage implements OnInit {
       eyeOutline,
       add,
       remove,
-      alertCircleOutline
+      alertCircleOutline,
+      cube
     });
   }
 

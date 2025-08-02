@@ -27,7 +27,7 @@ import {
   ModalController
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { add, create, trash, arrowBack, close } from 'ionicons/icons';
+import { add, create, trash, arrowBack, close, shieldCheckmark, addCircleOutline } from 'ionicons/icons';
 
 import { AdminService } from '../services/admin.service';
 import { ApiService } from '../services/api.service';
@@ -43,11 +43,7 @@ import { ProductFormModalComponent } from './product-form-modal.component';
     CommonModule,
     FormsModule,
     IonContent,
-    IonHeader,
-    IonTitle,
-    IonToolbar,
     IonButton,
-    IonButtons,
     IonIcon,
     IonCard,
     IonCardHeader,
@@ -90,7 +86,7 @@ export class AdminPage implements OnInit {
     private alertController: AlertController,
     private modalController: ModalController
   ) {
-    addIcons({ add, create, trash, arrowBack, close });
+    addIcons({ add, create, trash, arrowBack, close, shieldCheckmark, addCircleOutline });
   }
 
   ngOnInit() {

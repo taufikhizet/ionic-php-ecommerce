@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { IonicModule, AlertController, ToastController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
-import { cartOutline, star, searchOutline, bagOutline, eyeOutline, starOutline } from 'ionicons/icons';
+import { cartOutline, star, searchOutline, bagOutline, eyeOutline, starOutline, storefront } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
 import { Category, Product } from '../models/interfaces';
@@ -31,7 +31,7 @@ export class Tab1Page implements OnInit {
     private alertController: AlertController,
     private toastController: ToastController
   ) {
-    addIcons({ cartOutline, star, searchOutline, bagOutline, eyeOutline, starOutline });
+    addIcons({ cartOutline, star, searchOutline, bagOutline, eyeOutline, starOutline, storefront });
   }
 
   ngOnInit() {

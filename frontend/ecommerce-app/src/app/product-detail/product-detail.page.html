@@ -1,18 +1,25 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-buttons slot="start">
-      <ion-button (click)="goBack()">
-        <ion-icon name="arrow-back"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-    <ion-title>Product Detail</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="shareProduct()" *ngIf="product">
-        <ion-icon name="share-outline"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<div class="product-detail-header enhanced-header">
+  <div class="header-actions-left">
+    <ion-button (click)="goBack()" fill="clear">
+      <ion-icon name="arrow-back"></ion-icon>
+    </ion-button>
+  </div>
+  <div class="brand-section">
+    <div class="brand-icon">
+      <ion-icon name="cube"></ion-icon>
+    </div>
+    <div class="brand-text">
+      <p class="app-name">Product Detail</p>
+      <p class="app-tagline" *ngIf="product">{{product.category_name}}</p>
+      <p class="app-tagline" *ngIf="!product">Loading...</p>
+    </div>
+  </div>
+  <div class="header-actions-right">
+    <ion-button (click)="shareProduct()" *ngIf="product" fill="clear">
+      <ion-icon name="share-outline"></ion-icon>
+    </ion-button>
+  </div>
+</div>
 
 <ion-content [fullscreen]="true">
   <!-- Loading State -->
@@ -26,8 +33,8 @@
     <!-- Product Image -->
     <div class="product-image-section">
       <div class="product-image-container">
-        <img 
-          [src]="getProductImage(product.image)" 
+        <img
+          [src]="getProductImage(product.image)"
           [alt]="product.name"
           (error)="onImageError($event)"
           class="product-image"
@@ -38,8 +45,8 @@
             <span *ngIf="product.stock === 0">Out of Stock</span>
           </div>
         </div>
-        <button 
-          class="like-button" 
+        <button
+          class="like-button"
           [class.liked]="isLiked"
           (click)="toggleLike()"
         >
@@ -52,13 +59,15 @@
     <div class="product-info-section">
       <div class="product-header">
         <h1 class="product-title">{{product.name}}</h1>
-        <p class="product-category" *ngIf="product.category_name">{{product.category_name}}</p>
+        <p class="product-category" *ngIf="product.category_name">
+          {{product.category_name}}
+        </p>
       </div>
 
       <!-- Rating -->
       <div class="product-rating" *ngIf="product.rating > 0">
         <div class="stars">
-          <ion-icon 
+          <ion-icon
             *ngFor="let star of getStars(product.rating)"
             [name]="star === 1 ? 'star' : 'star-outline'"
             [class.filled]="star === 1"
@@ -81,16 +90,16 @@
       <div class="quantity-section" *ngIf="product.stock > 0">
         <h4>Quantity</h4>
         <div class="quantity-selector">
-          <button 
-            class="quantity-btn decrease" 
+          <button
+            class="quantity-btn decrease"
             (click)="decreaseQuantity()"
             [disabled]="quantity <= 1"
           >
             <ion-icon name="remove"></ion-icon>
           </button>
           <span class="quantity-display">{{quantity}}</span>
-          <button 
-            class="quantity-btn increase" 
+          <button
+            class="quantity-btn increase"
             (click)="increaseQuantity()"
             [disabled]="quantity >= product.stock"
           >
@@ -106,9 +115,7 @@
     <ion-icon name="alert-circle-outline"></ion-icon>
     <h3>Product Not Found</h3>
     <p>The product you're looking for could not be found.</p>
-    <ion-button (click)="goBack()" fill="outline">
-      Back to Shop
-    </ion-button>
+    <ion-button (click)="goBack()" fill="outline"> Back to Shop </ion-button>
   </div>
 </ion-content>
 
@@ -118,7 +125,7 @@
     <span class="total-label">Total:</span>
     <span class="total-price">{{formatRupiah(product.price * quantity)}}</span>
   </div>
-  <ion-button 
+  <ion-button
     class="add-to-cart-btn"
     (click)="addToCart()"
     [disabled]="product.stock === 0"

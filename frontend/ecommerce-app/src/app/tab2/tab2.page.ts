@@ -15,6 +15,7 @@ import {
   IonImg,
   IonLabel,
   IonButton,
+  IonButtons,
   IonIcon,
   IonCard,
   IonCardHeader,
@@ -25,7 +26,7 @@ import {
   AlertController 
 } from '@ionic/angular/standalone';
 import { addIcons } from 'ionicons';
-import { cartOutline, add, remove, trash } from 'ionicons/icons';
+import { cartOutline, add, remove, trash, bag, trashOutline } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
 import { CartItem } from '../models/interfaces';
@@ -36,9 +37,6 @@ import { CartItem } from '../models/interfaces';
   styleUrls: ['tab2.page.scss'],
   imports: [
     CommonModule,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
     IonContent,
     IonList,
     IonItem,
@@ -69,7 +67,7 @@ export class Tab2Page implements OnInit {
     private toastController: ToastController,
     private alertController: AlertController
   ) {
-    addIcons({ cartOutline, add, remove, trash });
+    addIcons({ cartOutline, add, remove, trash, bag, trashOutline });
   }
 
   ngOnInit() {
@@ -224,5 +222,37 @@ export class Tab2Page implements OnInit {
       buttons: ['OK']
     });
     await alert.present();
+  }
+
+  async clearCart() {
+    const alert = await this.alertController.create({
+      header: 'Clear Cart',
+      message: 'Are you sure you want to remove all items from your cart?',
+      buttons: [
+        {
+          text: 'Cancel',
+          role: 'cancel'
+        },
+        {
+          text: 'Clear',
+          role: 'destructive',
+          handler: () => {
+            this.confirmClearCart();
+          }
+        }
+      ]
+    });
+    await alert.present();
+  }
+
+  confirmClearCart() {
+    // For now, just clear locally - you can implement API call later
+    this.cartItems = [];
+    this.cartTotal = 0;
+    this.toastController.create({
+      message: 'Cart cleared successfully',
+      duration: 2000,
+      color: 'success'
+    }).then(toast => toast.present());
   }
 }

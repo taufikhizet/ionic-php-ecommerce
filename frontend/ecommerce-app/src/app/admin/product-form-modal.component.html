@@ -1,13 +1,19 @@
-<ion-header>
-  <ion-toolbar color="primary">
-    <ion-title>{{ isEditMode ? "Edit Product" : "Add New Product" }}</ion-title>
-    <ion-buttons slot="end">
-      <ion-button (click)="closeModal()" fill="clear">
-        <ion-icon name="close"></ion-icon>
-      </ion-button>
-    </ion-buttons>
-  </ion-toolbar>
-</ion-header>
+<div class="modal-header enhanced-header">
+  <div class="brand-section">
+    <div class="brand-icon">
+      <ion-icon name="cube-outline"></ion-icon>
+    </div>
+    <div class="brand-text">
+      <p class="app-name">{{ isEditMode ? "Edit Product" : "Add New Product" }}</p>
+      <p class="app-tagline">Product Management</p>
+    </div>
+  </div>
+  <div class="header-actions-right">
+    <ion-button (click)="closeModal()" fill="clear">
+      <ion-icon name="close"></ion-icon>
+    </ion-button>
+  </div>
+</div>
 
 <ion-content class="ion-padding">
   <div class="debug-info">

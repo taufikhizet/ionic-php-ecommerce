@@ -1,15 +1,16 @@
-<ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title> Profile </ion-title>
-  </ion-toolbar>
-</ion-header>
+<div class="profile-header enhanced-header">
+  <div class="brand-section">
+    <div class="brand-icon">
+      <ion-icon name="person-circle"></ion-icon>
+    </div>
+    <div class="brand-text">
+      <p class="app-name">Profile</p>
+      <p class="app-tagline">Manage your account</p>
+    </div>
+  </div>
+</div>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Profile</ion-title>
-    </ion-toolbar>
-  </ion-header>
 
   <!-- User Profile (when logged in) -->
   <div *ngIf="isLoggedIn && currentUser" class="profile-section">
