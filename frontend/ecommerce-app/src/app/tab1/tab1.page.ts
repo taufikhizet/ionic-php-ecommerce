@@ -165,7 +165,8 @@ export class Tab1Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Product added to cart!',
           duration: 2000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
         this.updateCartCount();
@@ -174,7 +175,8 @@ export class Tab1Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Failed to add to cart. Please try again.',
           duration: 2000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
       }

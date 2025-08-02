@@ -105,7 +105,8 @@ export class Tab2Page implements OnInit {
       const toast = await this.toastController.create({
         message: 'Maximum stock reached',
         duration: 2000,
-        color: 'warning'
+        color: 'warning',
+        position: 'top'
       });
       await toast.present();
       return;
@@ -142,7 +143,8 @@ export class Tab2Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Failed to update quantity',
           duration: 2000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
       }
@@ -207,7 +209,8 @@ export class Tab2Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Item removed from cart',
           duration: 2000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
       },
@@ -215,7 +218,8 @@ export class Tab2Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Failed to remove item',
           duration: 2000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
       }
@@ -287,7 +291,8 @@ export class Tab2Page implements OnInit {
     this.toastController.create({
       message: 'Cart cleared successfully',
       duration: 2000,
-      color: 'success'
+      color: 'success',
+      position: 'top'
     }).then(toast => toast.present());
   }
 }

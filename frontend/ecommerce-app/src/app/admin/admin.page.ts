@@ -314,7 +314,8 @@ export class AdminPage implements OnInit {
     const toast = await this.toastController.create({
       message,
       duration: 2000,
-      color
+      color,
+      position: 'top'
     });
     await toast.present();
   }
@@ -324,7 +325,8 @@ export class AdminPage implements OnInit {
       const toast = await this.toastController.create({
         message: 'Please fill in all required fields',
         duration: 2000,
-        color: 'warning'
+        color: 'warning',
+        position: 'top'
       });
       await toast.present();
       return;
@@ -339,7 +341,8 @@ export class AdminPage implements OnInit {
         const toast = await this.toastController.create({
           message: this.isEditMode ? 'Product updated successfully' : 'Product created successfully',
           duration: 2000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
         
@@ -350,7 +353,8 @@ export class AdminPage implements OnInit {
         const toast = await this.toastController.create({
           message: 'Error saving product: ' + (error.error?.message || 'Unknown error'),
           duration: 3000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
       }
@@ -394,7 +398,8 @@ export class AdminPage implements OnInit {
                 const toast = await this.toastController.create({
                   message: 'Product deleted successfully',
                   duration: 2000,
-                  color: 'success'
+                  color: 'success',
+                  position: 'top'
                 });
                 await toast.present();
                 
@@ -405,7 +410,8 @@ export class AdminPage implements OnInit {
                 const toast = await this.toastController.create({
                   message: 'Error deleting product: ' + (error.error?.message || 'Unknown error'),
                   duration: 3000,
-                  color: 'danger'
+                  color: 'danger',
+                  position: 'top'
                 });
                 await toast.present();
               }

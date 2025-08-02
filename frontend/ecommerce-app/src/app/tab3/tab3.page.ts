@@ -139,7 +139,8 @@ export class Tab3Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Login successful!',
           duration: 2000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
         
@@ -150,7 +151,8 @@ export class Tab3Page implements OnInit {
         const toast = await this.toastController.create({
           message: error.error?.message || 'Login failed',
           duration: 3000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
         this.isLoading = false;
@@ -163,7 +165,8 @@ export class Tab3Page implements OnInit {
       const toast = await this.toastController.create({
         message: 'Passwords do not match',
         duration: 2000,
-        color: 'danger'
+        color: 'danger',
+        position: 'top'
       });
       await toast.present();
       return;
@@ -176,7 +179,8 @@ export class Tab3Page implements OnInit {
         const toast = await this.toastController.create({
           message: 'Registration successful! Please login.',
           duration: 3000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
         
@@ -189,7 +193,8 @@ export class Tab3Page implements OnInit {
         const toast = await this.toastController.create({
           message: error.error?.message || 'Registration failed',
           duration: 3000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
         this.isLoading = false;

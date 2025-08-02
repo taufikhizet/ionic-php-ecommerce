@@ -182,7 +182,8 @@ export class ProductDetailPage implements OnInit {
         const toast = await this.toastController.create({
           message: `${this.quantity} item(s) added to cart!`,
           duration: 2000,
-          color: 'success'
+          color: 'success',
+          position: 'top'
         });
         await toast.present();
       },
@@ -190,7 +191,8 @@ export class ProductDetailPage implements OnInit {
         const toast = await this.toastController.create({
           message: 'Failed to add to cart. Please try again.',
           duration: 2000,
-          color: 'danger'
+          color: 'danger',
+          position: 'top'
         });
         await toast.present();
       }
@@ -213,7 +215,8 @@ export class ProductDetailPage implements OnInit {
       const toast = await this.toastController.create({
         message: 'Share feature not supported on this device',
         duration: 2000,
-        color: 'warning'
+        color: 'warning',
+        position: 'top'
       });
       await toast.present();
     }
