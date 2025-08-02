@@ -45,13 +45,6 @@
             <span *ngIf="product.stock === 0">Out of Stock</span>
           </div>
         </div>
-        <button
-          class="like-button"
-          [class.liked]="isLiked"
-          (click)="toggleLike()"
-        >
-          <ion-icon [name]="isLiked ? 'heart' : 'heart-outline'"></ion-icon>
-        </button>
       </div>
     </div>
 
