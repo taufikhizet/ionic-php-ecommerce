@@ -25,8 +25,6 @@ import { addIcons } from 'ionicons';
 import { 
   personCircle, 
   personOutline, 
-  locationOutline, 
-  cardOutline, 
   receiptOutline, 
   settingsOutline, 
   logOutOutline,
@@ -87,8 +85,6 @@ export class Tab3Page implements OnInit {
     addIcons({ 
       personCircle, 
       personOutline, 
-      locationOutline, 
-      cardOutline, 
       receiptOutline, 
       settingsOutline, 
       logOutOutline,

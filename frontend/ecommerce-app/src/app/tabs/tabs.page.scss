@@ -344,34 +344,7 @@ ion-tab-button.tab-selected {
   }
 }
 
-// Dark mode support
-@media (prefers-color-scheme: dark) {
-  ion-tab-bar {
-    --background: #1f2937;
-    --color: #9ca3af;
-    --color-selected: #f3f4f6;
-    border-top: 1px solid #374151;
-    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.4);
-    
-    ion-tab-button {
-      --color: #9ca3af;
-      --color-selected: #f3f4f6;
-      
-      &::before {
-        background: rgba(255, 255, 255, 0.04) !important;
-      }
-      
-      &:hover:not(.tab-selected)::before {
-        background: rgba(255, 255, 255, 0.08) !important;
-      }
-      
-      &.tab-selected::before {
-        background: rgba(255, 255, 255, 0.1) !important;
-        border: 1px solid rgba(255, 255, 255, 0.15) !important;
-      }
-    }
-  }
-}
+
 
 // Safe area adjustments for devices with home indicator
 @supports (padding-bottom: env(safe-area-inset-bottom)) {

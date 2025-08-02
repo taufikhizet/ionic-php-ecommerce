@@ -88,16 +88,10 @@
         Kembali ke Beranda
       </ion-button>
 
-      <ion-button
-        expand="block"
-        fill="outline"
-        color="primary"
-        (click)="goToOrders()"
-        class="action-btn"
-      >
-        <ion-icon name="receipt-outline" slot="start"></ion-icon>
-        Lihat Pesanan Saya
-      </ion-button>
+      <div class="custom-outline-button" (click)="goToOrders()">
+        <ion-icon name="receipt-outline"></ion-icon>
+        <span>Lihat Pesanan Saya</span>
+      </div>
     </div>
   </div>
 </ion-content>

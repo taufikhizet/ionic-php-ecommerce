@@ -210,36 +210,7 @@ ion-spinner {
   }
 }
 
-// Dark Mode Support
-@media (prefers-color-scheme: dark) {
-  ion-content {
-    --background: #1a1a1a;
-  }
 
-  .form-section {
-    background: #2d2d2d;
-    border-color: rgba(255, 65, 108, 0.2);
-
-    .section-title {
-      color: #ff8fa3;
-    }
-  }
-
-  .form-item {
-    --border-color: rgba(255, 65, 108, 0.3);
-
-    ion-label {
-      color: #ff8fa3;
-    }
-
-    ion-input,
-    ion-textarea,
-    ion-datetime {
-      --color: #ffffff;
-      --placeholder-color: #666666;
-    }
-  }
-}
 
 // Animation for smooth transitions
 .profile-header,
