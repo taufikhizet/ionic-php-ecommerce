@@ -28,6 +28,7 @@ import { add, create, trash, arrowBack, close, shieldCheckmark, addCircleOutline
 
 import { AdminService } from '../services/admin.service';
 import { ApiService } from '../services/api.service';
+import { UrlService } from '../services/url.service';
 import { Product, Category } from '../models/interfaces';
 import { ProductFormModalComponent } from './product-form-modal.component';
 
@@ -75,6 +76,7 @@ export class AdminPage implements OnInit {
   constructor(
     private adminService: AdminService,
     private apiService: ApiService,
+    private urlService: UrlService,
     private router: Router,
     private toastController: ToastController,
     private alertController: AlertController,
@@ -419,10 +421,7 @@ export class AdminPage implements OnInit {
   }
 
   getProductImage(imageName: string): string {
-    if (!imageName) {
-      return 'assets/images/no-image.svg';
-    }
-    return `http://localhost/ionic_php_ecommerce/backend/images/${imageName}`;
+    return this.urlService.getProductImageUrl(imageName);
   }
 
   getCategoryName(categoryId: number): string {

@@ -20,6 +20,7 @@ import {
 } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
+import { UrlService } from '../services/url.service';
 import { Product } from '../models/interfaces';
 
 @Component({
@@ -40,6 +41,7 @@ export class ProductDetailPage implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private apiService: ApiService,
+    private urlService: UrlService,
     private alertController: AlertController,
     private toastController: ToastController
   ) {
@@ -102,25 +104,11 @@ export class ProductDetailPage implements OnInit {
   }
 
   getProductImage(imageName: string): string {
-    if (!imageName) {
-      return 'assets/images/no-image.svg';
-    }
-    
-    if (imageName.startsWith('http')) {
-      return imageName;
-    }
-    
-    if (!imageName.includes('/')) {
-      return `http://localhost/ionic_php_ecommerce/backend/images/${imageName}`;
-    }
-    
-    return imageName.startsWith('/') ? 
-      `http://localhost/ionic_php_ecommerce/backend${imageName}` : 
-      `http://localhost/ionic_php_ecommerce/backend/${imageName}`;
+    return this.urlService.getProductImageUrl(imageName);
   }
 
   onImageError(event: any) {
-    (event.target as HTMLImageElement).src = 'assets/images/no-image.svg';
+    (event.target as HTMLImageElement).src = this.urlService.getNoImageUrl();
   }
 
   getStars(rating: number): number[] {

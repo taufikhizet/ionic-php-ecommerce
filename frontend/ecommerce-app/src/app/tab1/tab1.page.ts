@@ -7,6 +7,7 @@ import { addIcons } from 'ionicons';
 import { cartOutline, star, searchOutline, bagOutline, eyeOutline, starOutline, storefront } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
+import { UrlService } from '../services/url.service';
 import { Category, Product } from '../models/interfaces';
 
 @Component({
@@ -27,6 +28,7 @@ export class Tab1Page implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private urlService: UrlService,
     private router: Router,
     private alertController: AlertController,
     private toastController: ToastController
@@ -195,26 +197,11 @@ export class Tab1Page implements OnInit {
   onImageError(event: any, product: Product) {
     console.log('Image failed to load:', product.image);
     console.log('Attempted path:', this.getProductImage(product.image));
-    (event.target as HTMLImageElement).src = 'assets/images/no-image.svg';
+    (event.target as HTMLImageElement).src = this.urlService.getNoImageUrl();
   }
 
   getProductImage(imageName: string): string {
-    if (!imageName) {
-      return 'assets/images/no-image.svg';
-    }
-    
-    // Handle both relative and full URLs
-    if (imageName.startsWith('http')) {
-      return imageName;
-    }
-    
-    // If it's just a filename, construct the full URL for Laragon
-    if (!imageName.includes('/')) {
-      return `http://localhost/ionic_php_ecommerce/backend/images/${imageName}`;
-    }
-    
-    // If it already includes path, use as is with Laragon base URL
-    return imageName.startsWith('/') ? `http://localhost/ionic_php_ecommerce/backend${imageName}` : `http://localhost/ionic_php_ecommerce/backend/${imageName}`;
+    return this.urlService.getProductImageUrl(imageName);
   }
 
   getStars(rating: number): number[] {

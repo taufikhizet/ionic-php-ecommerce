@@ -29,6 +29,7 @@ import { addIcons } from 'ionicons';
 import { cartOutline, add, remove, trash, bag, trashOutline } from 'ionicons/icons';
 
 import { ApiService } from '../services/api.service';
+import { UrlService } from '../services/url.service';
 import { CartItem } from '../models/interfaces';
 
 @Component({
@@ -63,6 +64,7 @@ export class Tab2Page implements OnInit {
 
   constructor(
     private apiService: ApiService,
+    private urlService: UrlService,
     private router: Router,
     private toastController: ToastController,
     private alertController: AlertController
@@ -240,10 +242,7 @@ export class Tab2Page implements OnInit {
   }
 
   getProductImage(imageName: string): string {
-    if (!imageName) {
-      return 'assets/images/no-image.svg';
-    }
-    return `http://localhost/ionic_php_ecommerce/backend/images/${imageName}`;
+    return this.urlService.getProductImageUrl(imageName);
   }
 
   goToLogin() {

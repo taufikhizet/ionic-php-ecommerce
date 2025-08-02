@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { UrlService } from '../services/url.service';
 import {
   IonContent,
   IonHeader,
@@ -53,7 +54,10 @@ export class ProductFormModalComponent implements OnInit {
   selectedFile: File | null = null;
   formattedPrice: string = '';
 
-  constructor(private modalController: ModalController) {
+  constructor(
+    private modalController: ModalController,
+    private urlService: UrlService
+  ) {
     addIcons({ close, trash });
   }
 
@@ -134,14 +138,12 @@ export class ProductFormModalComponent implements OnInit {
   }
 
   getImagePath(imageName: string): string {
-    if (!imageName) return '';
-    return `http://localhost/ionic_php_ecommerce/backend/images/${imageName}`;
+    return this.urlService.getProductImageUrl(imageName);
   }
 
   onImageError(event: any) {
     console.log('Image load error:', event);
-    // Set a default image
-    event.target.src = 'assets/images/no-image.svg';
+    event.target.src = this.urlService.getNoImageUrl();
   }
 
   closeModal() {

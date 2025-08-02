@@ -5,6 +5,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { ApiService } from '../services/api.service';
+import { UrlService } from '../services/url.service';
 
 interface CartItem {
   id: number;
@@ -74,7 +75,8 @@ export class CheckoutPage implements OnInit, OnDestroy {
     private alertController: AlertController,
     private toastController: ToastController,
     private loadingController: LoadingController,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private urlService: UrlService
   ) {}
 
   async ngOnInit() {
@@ -183,19 +185,13 @@ export class CheckoutPage implements OnInit, OnDestroy {
   }
 
   getProductImage(imagePath: string): string {
-    if (!imagePath) {
-      return 'assets/images/no-image.svg';
-    }
-    if (imagePath.startsWith('http')) {
-      return imagePath;
-    }
-    return `http://localhost/ionic_php_ecommerce/backend/images/${imagePath}`;
+    return this.urlService.getProductImageUrl(imagePath);
   }
 
   onImageError(event: any, item: CartItem) {
     console.log('Image failed to load:', item.image);
     console.log('Attempted path:', this.getProductImage(item.image));
-    (event.target as HTMLImageElement).src = 'assets/images/no-image.svg';
+    (event.target as HTMLImageElement).src = this.urlService.getNoImageUrl();
   }
 
   formatRupiah(amount: number): string {

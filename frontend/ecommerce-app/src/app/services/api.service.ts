@@ -19,6 +19,7 @@ import {
 })
 export class ApiService {
   private baseUrl = environment.apiUrl;
+  private endpoints = environment.endpoints;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
   private profileUpdatedSubject = new BehaviorSubject<boolean>(false);
@@ -38,14 +39,14 @@ export class ApiService {
 
   // Auth methods
   login(email: string, password: string): Observable<LoginResponse> {
-    return this.http.post<LoginResponse>(`${this.baseUrl}/login.php`, {
+    return this.http.post<LoginResponse>(`${this.baseUrl}${this.endpoints.auth.login}`, {
       email,
       password
     });
   }
 
   register(userData: any): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.baseUrl}/register.php`, userData);
+    return this.http.post<ApiResponse>(`${this.baseUrl}${this.endpoints.auth.register}`, userData);
   }
 
   setCurrentUser(user: User, token: string): void {
@@ -82,43 +83,43 @@ export class ApiService {
 
   // Categories
   getCategories(): Observable<CategoryResponse> {
-    return this.http.get<CategoryResponse>(`${this.baseUrl}/categories.php`);
+    return this.http.get<CategoryResponse>(`${this.baseUrl}${this.endpoints.categories.list}`);
   }
 
   getCategory(id: number): Observable<Category> {
-    return this.http.get<Category>(`${this.baseUrl}/categories.php?id=${id}`);
+    return this.http.get<Category>(`${this.baseUrl}${this.endpoints.categories.detail}?id=${id}`);
   }
 
   // Products
   getProducts(): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(`${this.baseUrl}/products.php`);
+    return this.http.get<ProductResponse>(`${this.baseUrl}${this.endpoints.products.list}`);
   }
 
   getProduct(id: number): Observable<Product> {
-    return this.http.get<Product>(`${this.baseUrl}/products.php?id=${id}`);
+    return this.http.get<Product>(`${this.baseUrl}${this.endpoints.products.detail}?id=${id}`);
   }
 
   getProductById(id: number): Observable<ProductDetailResponse> {
-    return this.http.get<ProductDetailResponse>(`${this.baseUrl}/products.php?id=${id}`);
+    return this.http.get<ProductDetailResponse>(`${this.baseUrl}${this.endpoints.products.detail}?id=${id}`);
   }
 
   getProductsByCategory(categoryId: number): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(`${this.baseUrl}/products.php?category_id=${categoryId}`);
+    return this.http.get<ProductResponse>(`${this.baseUrl}${this.endpoints.products.byCategory}?category_id=${categoryId}`);
   }
 
   searchProducts(query: string): Observable<ProductResponse> {
-    return this.http.get<ProductResponse>(`${this.baseUrl}/products.php?search=${encodeURIComponent(query)}`);
+    return this.http.get<ProductResponse>(`${this.baseUrl}${this.endpoints.products.search}?search=${encodeURIComponent(query)}`);
   }
 
   // Cart
   getCart(): Observable<CartResponse> {
-    return this.http.get<CartResponse>(`${this.baseUrl}/cart.php`, {
+    return this.http.get<CartResponse>(`${this.baseUrl}${this.endpoints.cart.list}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   addToCart(productId: number, quantity: number): Observable<ApiResponse> {
-    return this.http.post<ApiResponse>(`${this.baseUrl}/cart.php`, {
+    return this.http.post<ApiResponse>(`${this.baseUrl}${this.endpoints.cart.add}`, {
       product_id: productId,
       quantity
     }, {
@@ -127,7 +128,7 @@ export class ApiService {
   }
 
   updateCartItem(itemId: number, quantity: number): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.baseUrl}/cart.php`, {
+    return this.http.put<ApiResponse>(`${this.baseUrl}${this.endpoints.cart.update}`, {
       id: itemId,
       quantity
     }, {
@@ -136,45 +137,45 @@ export class ApiService {
   }
 
   removeFromCart(itemId: number): Observable<ApiResponse> {
-    return this.http.delete<ApiResponse>(`${this.baseUrl}/cart.php?id=${itemId}`, {
+    return this.http.delete<ApiResponse>(`${this.baseUrl}${this.endpoints.cart.remove}?id=${itemId}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Profile methods
   getProfile(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/profile.php`, {
+    return this.http.get<any>(`${this.baseUrl}${this.endpoints.auth.profile}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   updateProfile(profileData: any): Observable<ApiResponse> {
-    return this.http.put<ApiResponse>(`${this.baseUrl}/profile.php`, profileData, {
+    return this.http.put<ApiResponse>(`${this.baseUrl}${this.endpoints.auth.profile}`, profileData, {
       headers: this.getAuthHeaders()
     });
   }
 
   // Order methods
   createOrder(orderData: any): Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/orders.php`, orderData, {
+    return this.http.post<any>(`${this.baseUrl}${this.endpoints.orders.create}`, orderData, {
       headers: this.getAuthHeaders()
     });
   }
 
   getOrders(): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/orders.php`, {
+    return this.http.get<any>(`${this.baseUrl}${this.endpoints.orders.list}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   getOrder(orderId: number): Observable<any> {
-    return this.http.get<any>(`${this.baseUrl}/orders.php?id=${orderId}`, {
+    return this.http.get<any>(`${this.baseUrl}${this.endpoints.orders.detail}?id=${orderId}`, {
       headers: this.getAuthHeaders()
     });
   }
 
   clearCart(): Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/cart.php?clear=all`, {
+    return this.http.delete<any>(`${this.baseUrl}${this.endpoints.cart.clear}?clear=all`, {
       headers: this.getAuthHeaders()
     });
   }
