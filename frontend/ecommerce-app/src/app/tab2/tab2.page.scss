@@ -151,33 +151,34 @@ ion-label {
 .quantity-controls {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 8px;
   background: rgba(59, 130, 246, 0.08);
   border: 1px solid rgba(59, 130, 246, 0.15);
   border-radius: 24px;
-  padding: 6px 12px;
+  padding: 2px 6px;
   
   .quantity {
-    min-width: 32px;
+    min-width: 36px;
     text-align: center;
     font-weight: 700;
     color: #1d4ed8;
-    font-size: 15px;
+    font-size: 16px;
     user-select: none;
   }
   
   .quantity-btn {
-    --padding-start: 8px;
-    --padding-end: 8px;
-    width: 32px;
-    height: 32px;
+    --padding-start: 0px;
+    --padding-end: 0px;
+    width: 36px;
+    height: 36px;
     --background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
     --color: white;
     --border-radius: 50%;
     margin: 0;
     
     ion-icon {
-      font-size: 16px;
+      font-size: 24px;
+      font-weight: bold;
     }
     
     &:disabled {
