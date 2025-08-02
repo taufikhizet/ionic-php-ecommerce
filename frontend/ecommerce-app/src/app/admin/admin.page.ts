@@ -19,9 +19,6 @@ import {
   IonRow,
   IonCol,
   IonImg,
-  IonBadge,
-  IonFab,
-  IonFabButton,
   ToastController,
   AlertController,
   ModalController
@@ -53,10 +50,7 @@ import { ProductFormModalComponent } from './product-form-modal.component';
     IonGrid,
     IonRow,
     IonCol,
-    IonImg,
-    IonBadge,
-    IonFab,
-    IonFabButton
+    IonImg
   ]
 })
 export class AdminPage implements OnInit {
