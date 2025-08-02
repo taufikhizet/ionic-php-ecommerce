@@ -1,0 +1,99 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title>Pesanan Berhasil</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="success-container">
+    <!-- Success Icon -->
+    <div class="success-icon">
+      <ion-icon name="checkmark-circle-outline" color="success"></ion-icon>
+    </div>
+
+    <!-- Success Message -->
+    <div class="success-message">
+      <h2>Pesanan Berhasil Dibuat!</h2>
+      <p>Terima kasih telah berbelanja. Pesanan Anda sedang diproses.</p>
+    </div>
+
+    <!-- Order Details Card -->
+    <ion-card class="order-card" *ngIf="orderData">
+      <ion-card-header>
+        <ion-card-title>Detail Pesanan</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <ion-list>
+          <ion-item>
+            <ion-icon name="receipt-outline" slot="start"></ion-icon>
+            <ion-label>
+              <h3>Nomor Pesanan</h3>
+              <p>{{ orderData.order_number }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Status</h3>
+              <p class="status-pending">{{ orderData.status | titlecase }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Metode Pembayaran</h3>
+              <p>{{ getPaymentMethodName(orderData.payment_method) }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Total Pembayaran</h3>
+              <p class="total-amount">{{ formatCurrency(orderData.total) }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item>
+            <ion-label>
+              <h3>Alamat Pengiriman</h3>
+              <p>{{ orderData.shipping_address }}</p>
+            </ion-label>
+          </ion-item>
+
+          <ion-item *ngIf="orderData.notes">
+            <ion-label>
+              <h3>Catatan</h3>
+              <p>{{ orderData.notes }}</p>
+            </ion-label>
+          </ion-item>
+        </ion-list>
+      </ion-card-content>
+    </ion-card>
+
+    <!-- Action Buttons -->
+    <div class="action-buttons">
+      <ion-button
+        expand="block"
+        fill="solid"
+        color="primary"
+        (click)="goToHome()"
+        class="action-btn"
+      >
+        <ion-icon name="home-outline" slot="start"></ion-icon>
+        Kembali ke Beranda
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="primary"
+        (click)="goToOrders()"
+        class="action-btn"
+      >
+        <ion-icon name="receipt-outline" slot="start"></ion-icon>
+        Lihat Pesanan Saya
+      </ion-button>
+    </div>
+  </div>
+</ion-content>

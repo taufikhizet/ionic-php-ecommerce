@@ -1,0 +1,147 @@
+.success-container {
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 50%, #1e40af 100%);
+}
+
+.success-icon {
+  margin: 40px 0 20px 0;
+  
+  ion-icon {
+    font-size: 80px;
+    color: #10b981;
+  }
+}
+
+.success-message {
+  text-align: center;
+  margin-bottom: 30px;
+  color: white;
+  
+  h2 {
+    font-size: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+  }
+  
+  p {
+    font-size: 16px;
+    opacity: 0.9;
+  }
+}
+
+.order-card {
+  width: 100%;
+  margin-bottom: 30px;
+  border-radius: 15px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  
+  ion-card-header {
+    padding-bottom: 10px;
+    
+    ion-card-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: #1f2937;
+    }
+  }
+  
+  ion-list {
+    background: transparent;
+    
+    ion-item {
+      --background: transparent;
+      --border-color: #e5e7eb;
+      --padding-start: 0;
+      --inner-padding-end: 0;
+      
+      ion-icon {
+        color: #3b82f6;
+        margin-right: 10px;
+      }
+      
+      ion-label {
+        h3 {
+          font-size: 14px;
+          font-weight: 600;
+          color: #6b7280;
+          margin-bottom: 4px;
+        }
+        
+        p {
+          font-size: 16px;
+          color: #1f2937;
+          margin: 0;
+          
+          &.status-pending {
+            color: #f59e0b;
+            font-weight: 500;
+          }
+          
+          &.total-amount {
+            font-size: 18px;
+            font-weight: 700;
+            color: #059669;
+          }
+        }
+      }
+    }
+  }
+}
+
+.action-buttons {
+  width: 100%;
+  margin-top: 20px;
+  
+  .action-btn {
+    margin-bottom: 15px;
+    height: 50px;
+    font-weight: 600;
+    border-radius: 25px;
+    
+    &:last-child {
+      margin-bottom: 0;
+    }
+  }
+}
+
+// Responsive adjustments
+@media (max-width: 480px) {
+  .success-container {
+    padding: 15px;
+  }
+  
+  .success-icon ion-icon {
+    font-size: 60px;
+  }
+  
+  .success-message h2 {
+    font-size: 20px;
+  }
+}
+
+// Dark mode support
+@media (prefers-color-scheme: dark) {
+  .order-card {
+    ion-card-header ion-card-title {
+      color: #f9fafb;
+    }
+    
+    ion-list ion-item ion-label {
+      h3 {
+        color: #9ca3af;
+      }
+      
+      p {
+        color: #f3f4f6;
+        
+        &.total-amount {
+          color: #10b981;
+        }
+      }
+    }
+  }
+}

@@ -255,12 +255,42 @@ export class Tab2Page implements OnInit {
   }
 
   async proceedToCheckout() {
-    const alert = await this.alertController.create({
-      header: 'Checkout',
-      message: 'Checkout functionality will be implemented in the next phase.',
-      buttons: ['OK']
+    if (!this.isLoggedIn) {
+      const alert = await this.alertController.create({
+        header: 'Login Required',
+        message: 'Please login to proceed with checkout.',
+        buttons: [
+          {
+            text: 'Cancel',
+            role: 'cancel'
+          },
+          {
+            text: 'Login',
+            handler: () => {
+              this.goToLogin();
+            }
+          }
+        ]
+      });
+      await alert.present();
+      return;
+    }
+
+    if (this.cartItems.length === 0) {
+      const toast = await this.toastController.create({
+        message: 'Your cart is empty',
+        duration: 2000,
+        color: 'warning',
+        position: 'top'
+      });
+      await toast.present();
+      return;
+    }
+
+    // Navigate to checkout page with cart items
+    this.router.navigate(['/checkout'], {
+      state: { cartItems: this.cartItems }
     });
-    await alert.present();
   }
 
   async clearCart() {

@@ -154,6 +154,31 @@ export class ApiService {
     });
   }
 
+  // Order methods
+  createOrder(orderData: any): Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/orders.php`, orderData, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getOrders(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/orders.php`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  getOrder(orderId: number): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/orders.php?id=${orderId}`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  clearCart(): Observable<any> {
+    return this.http.delete<any>(`${this.baseUrl}/cart.php?clear=all`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
   notifyProfileUpdated(): void {
     this.profileUpdatedSubject.next(true);
   }

@@ -1,0 +1,146 @@
+<ion-header [translucent]="true" class="checkout-gradient-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab2" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Checkout</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <div class="checkout-container">
+    <!-- Shipping Address Section -->
+    <div class="checkout-section">
+      <h3 class="section-title">
+        <ion-icon name="location-outline"></ion-icon>
+        Alamat Pengiriman
+      </h3>
+
+      <div
+        class="address-card"
+        *ngIf="shippingAddress; else addAddressTemplate"
+      >
+        <div class="address-info">
+          <h4>{{shippingAddress.name}}</h4>
+          <p>{{shippingAddress.phone}}</p>
+          <p>{{shippingAddress.address}}</p>
+        </div>
+        <ion-button fill="clear" size="small" (click)="editAddress()">
+          <ion-icon name="pencil" slot="icon-only"></ion-icon>
+        </ion-button>
+      </div>
+
+      <ng-template #addAddressTemplate>
+        <ion-button expand="block" fill="outline" (click)="addAddress()">
+          <ion-icon name="add" slot="start"></ion-icon>
+          Tambah Alamat
+        </ion-button>
+      </ng-template>
+    </div>
+
+    <!-- Order Summary Section -->
+    <div class="checkout-section">
+      <h3 class="section-title">
+        <ion-icon name="receipt-outline"></ion-icon>
+        Ringkasan Pesanan
+      </h3>
+
+      <div class="order-items">
+        <div class="order-item" *ngFor="let item of cartItems">
+          <ion-thumbnail>
+            <ion-img
+              [src]="getProductImage(item.image)"
+              [alt]="item.name"
+              (error)="onImageError($event, item)"
+            ></ion-img>
+          </ion-thumbnail>
+          <div class="item-info">
+            <h4>{{item.name}}</h4>
+            <p>{{formatRupiah(item.price)}} x {{item.quantity}}</p>
+          </div>
+          <div class="item-total">{{formatRupiah(item.subtotal)}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Payment Method Section -->
+    <div class="checkout-section">
+      <h3 class="section-title">
+        <ion-icon name="card-outline"></ion-icon>
+        Metode Pembayaran
+      </h3>
+
+      <ion-radio-group [(ngModel)]="selectedPaymentMethod">
+        <div class="payment-option" *ngFor="let method of paymentMethods">
+          <ion-item>
+            <ion-radio slot="start" [value]="method.id"></ion-radio>
+            <ion-label>
+              <div class="payment-info">
+                <ion-icon [name]="method.icon" class="payment-icon"></ion-icon>
+                <div>
+                  <h4>{{method.name}}</h4>
+                  <p>{{method.description}}</p>
+                </div>
+              </div>
+            </ion-label>
+          </ion-item>
+        </div>
+      </ion-radio-group>
+    </div>
+
+    <!-- Order Total Section -->
+    <div class="checkout-section total-section">
+      <h3 class="section-title">
+        <ion-icon name="calculator-outline"></ion-icon>
+        Total Pembayaran
+      </h3>
+
+      <div class="total-breakdown">
+        <div class="total-row">
+          <span>Subtotal ({{getTotalItems()}} items)</span>
+          <span>{{formatRupiah(subtotal)}}</span>
+        </div>
+        <div class="total-row">
+          <span>Ongkos Kirim</span>
+          <span>{{formatRupiah(shippingCost)}}</span>
+        </div>
+        <div class="total-row">
+          <span>Biaya Layanan</span>
+          <span>{{formatRupiah(serviceFee)}}</span>
+        </div>
+        <div class="total-row grand-total">
+          <span><strong>Total</strong></span>
+          <span><strong>{{formatRupiah(grandTotal)}}</strong></span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="checkout-actions">
+      <ion-button
+        expand="block"
+        class="place-order-btn"
+        (click)="placeOrder()"
+        [disabled]="!canPlaceOrder() || isLoading"
+      >
+        <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+        <span *ngIf="!isLoading">Buat Pesanan</span>
+      </ion-button>
+
+      <ion-button
+        expand="block"
+        fill="outline"
+        color="medium"
+        (click)="goBack()"
+      >
+        Kembali ke Keranjang
+      </ion-button>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <ion-loading
+    [isOpen]="isLoading"
+    message="Memproses pesanan..."
+  ></ion-loading>
+</ion-content>

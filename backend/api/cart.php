@@ -136,6 +136,15 @@ switch($method) {
                 http_response_code(503);
                 echo json_encode(array("message" => "Unable to remove cart item."));
             }
+        } elseif(isset($_GET['clear']) && $_GET['clear'] == 'all') {
+            // Clear all cart items for user
+            if($cart->clearCart($user_id)) {
+                http_response_code(200);
+                echo json_encode(array("message" => "Cart cleared successfully."));
+            } else {
+                http_response_code(503);
+                echo json_encode(array("message" => "Unable to clear cart."));
+            }
         } else {
             http_response_code(400);
             echo json_encode(array("message" => "Unable to remove cart item. ID is required."));
