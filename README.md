@@ -28,6 +28,9 @@ ionic_php_ecommerce/
 - **Tab 1 (Shop)**: Daftar produk dengan search dan filter kategori
 - **Tab 2 (Cart)**: Shopping cart dengan update quantity
 - **Tab 3 (Profile)**: Login/Register dan profile management
+- **Edit Profile**: Halaman edit profil dengan gradient header purple-pink
+- **Admin Panel**: Dashboard admin untuk manajemen produk
+- **Product Detail**: Detail produk dengan gradient header orange-red
 
 ## Setup & Installation
 
@@ -135,14 +138,20 @@ Database sudah termasuk sample data:
 
 ## TODO / Future Enhancements
 
+- [x] Admin dashboard dengan manajemen produk
+- [x] Edit profile dengan gradient header design
+- [x] Format harga Rupiah di seluruh aplikasi
+- [x] Delete product functionality dengan real-time updates
+- [x] Modern SCSS styling dengan gradient themes
 - [ ] Order management
 - [ ] Payment gateway integration
 - [ ] Push notifications
-- [ ] Admin dashboard
 - [ ] Product reviews dan ratings
 - [ ] Wishlist functionality
 - [ ] Advanced search filters
 - [ ] Email notifications
+- [ ] Image upload untuk profile avatar
+- [ ] Address management
 
 ## Troubleshooting
 

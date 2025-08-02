@@ -21,6 +21,8 @@ export class ApiService {
   private baseUrl = environment.apiUrl;
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  private profileUpdatedSubject = new BehaviorSubject<boolean>(false);
+  public profileUpdated$ = this.profileUpdatedSubject.asObservable();
 
   constructor(private http: HttpClient) {
     this.loadCurrentUser();
@@ -71,6 +73,11 @@ export class ApiService {
 
   isLoggedIn(): boolean {
     return !!localStorage.getItem('token');
+  }
+
+  updateCurrentUserData(user: User): void {
+    localStorage.setItem('user', JSON.stringify(user));
+    this.currentUserSubject.next(user);
   }
 
   // Categories
@@ -132,5 +139,26 @@ export class ApiService {
     return this.http.delete<ApiResponse>(`${this.baseUrl}/cart.php?id=${itemId}`, {
       headers: this.getAuthHeaders()
     });
+  }
+
+  // Profile methods
+  getProfile(): Observable<any> {
+    return this.http.get<any>(`${this.baseUrl}/profile.php`, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  updateProfile(profileData: any): Observable<ApiResponse> {
+    return this.http.put<ApiResponse>(`${this.baseUrl}/profile.php`, profileData, {
+      headers: this.getAuthHeaders()
+    });
+  }
+
+  notifyProfileUpdated(): void {
+    this.profileUpdatedSubject.next(true);
+  }
+
+  resetProfileUpdateFlag(): void {
+    this.profileUpdatedSubject.next(false);
   }
 }

@@ -97,17 +97,19 @@ class User {
     // Update user profile
     public function update() {
         $query = "UPDATE " . $this->table_name . "
-                  SET name=:name, phone=:phone, address=:address
+                  SET name=:name, email=:email, phone=:phone, address=:address
                   WHERE id=:id";
 
         $stmt = $this->conn->prepare($query);
 
         $this->name = htmlspecialchars(strip_tags($this->name));
+        $this->email = htmlspecialchars(strip_tags($this->email));
         $this->phone = htmlspecialchars(strip_tags($this->phone));
         $this->address = htmlspecialchars(strip_tags($this->address));
         $this->id = htmlspecialchars(strip_tags($this->id));
 
         $stmt->bindParam(":name", $this->name);
+        $stmt->bindParam(":email", $this->email);
         $stmt->bindParam(":phone", $this->phone);
         $stmt->bindParam(":address", $this->address);
         $stmt->bindParam(":id", $this->id);

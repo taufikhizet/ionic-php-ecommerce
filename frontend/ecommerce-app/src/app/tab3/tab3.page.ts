@@ -100,10 +100,59 @@ export class Tab3Page implements OnInit {
   ngOnInit() {
     this.checkLoginStatus();
     this.subscribeToUserChanges();
+    this.subscribeToProfileUpdates();
+  }
+
+  subscribeToProfileUpdates() {
+    this.apiService.profileUpdated$.subscribe(updated => {
+      if (updated) {
+        this.refreshProfile();
+        this.apiService.resetProfileUpdateFlag();
+      }
+    });
   }
 
   ionViewWillEnter() {
     this.checkLoginStatus();
+    this.refreshProfile();
+  }
+
+  async refreshProfile() {
+    if (!this.isLoggedIn) return;
+    
+    try {
+      // First try to get fresh data from API
+      const response = await this.apiService.getProfile().toPromise();
+      if (response && response.user) {
+        this.currentUser = response.user;
+        this.apiService.updateCurrentUserData(response.user);
+        return;
+      }
+    } catch (error) {
+      console.log('Failed to refresh profile from API:', error);
+    }
+
+    // Fallback to localStorage if API fails
+    const userData = localStorage.getItem('userData') || localStorage.getItem('user');
+    if (userData) {
+      try {
+        const user = JSON.parse(userData);
+        this.currentUser = user;
+        this.apiService.updateCurrentUserData(user);
+      } catch (error) {
+        console.log('Failed to parse user data:', error);
+      }
+    }
+  }
+
+  async showToast(message: string, color: string) {
+    const toast = await this.toastController.create({
+      message,
+      duration: 2000,
+      color,
+      position: 'top'
+    });
+    await toast.present();
   }
 
   checkLoginStatus() {
@@ -204,6 +253,10 @@ export class Tab3Page implements OnInit {
 
   openAdmin() {
     this.router.navigate(['/admin']);
+  }
+
+  navigateToEditProfile() {
+    this.router.navigate(['/edit-profile']);
   }
 
   async logout() {

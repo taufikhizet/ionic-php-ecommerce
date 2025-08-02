@@ -1,0 +1,92 @@
+<ion-header [translucent]="true" class="red-gradient-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab3" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Edit Profile</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Profile Edit Form -->
+  <div class="profile-form-container">
+    <form #profileForm="ngForm" (ngSubmit)="updateProfile()">
+      <!-- Personal Information Section -->
+      <div class="form-section">
+        <h3 class="section-title">Informasi Personal</h3>
+        
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nama Lengkap *</ion-label>
+          <ion-input
+            type="text"
+            [(ngModel)]="userProfile.name"
+            name="name"
+            required
+            placeholder="Masukkan nama lengkap">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="stacked">Email *</ion-label>
+          <ion-input
+            type="email"
+            [(ngModel)]="userProfile.email"
+            name="email"
+            required
+            placeholder="Masukkan email">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="stacked">Nomor Telepon</ion-label>
+          <ion-input
+            type="tel"
+            [(ngModel)]="userProfile.phone"
+            name="phone"
+            placeholder="Masukkan nomor telepon">
+          </ion-input>
+        </ion-item>
+
+        <ion-item class="form-item">
+          <ion-label position="stacked">Alamat</ion-label>
+          <ion-textarea
+            [(ngModel)]="userProfile.address"
+            name="address"
+            rows="3"
+            placeholder="Masukkan alamat lengkap">
+          </ion-textarea>
+        </ion-item>
+      </div>
+
+      <!-- Action Buttons -->
+      <div class="action-buttons">
+        <ion-button
+          expand="block"
+          type="submit"
+          class="save-btn"
+          [disabled]="!profileForm.valid || isLoading">
+          <ion-spinner name="crescent" *ngIf="isLoading"></ion-spinner>
+          <span *ngIf="!isLoading">Simpan Perubahan</span>
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="medium"
+          (click)="resetForm()"
+          [disabled]="isLoading">
+          Reset
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="clear"
+          color="danger"
+          (click)="showDeleteAccountAlert()"
+          [disabled]="isLoading">
+          Hapus Akun
+        </ion-button>
+      </div>
+    </form>
+  </div>
+</ion-content>
