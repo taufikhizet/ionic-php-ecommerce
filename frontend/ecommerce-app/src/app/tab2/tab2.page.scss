@@ -1,3 +1,4 @@
+// Tab2 (Cart) - Blue Theme
 .login-required,
 .empty-cart {
   text-align: center;
@@ -7,10 +8,12 @@
   ion-icon {
     margin-bottom: 16px;
     opacity: 0.5;
+    color: #3b82f6;
   }
   
   h3 {
     margin: 16px 0 8px 0;
+    color: #1d4ed8;
   }
   
   p {
@@ -35,6 +38,7 @@
     min-width: 30px;
     text-align: center;
     font-weight: 600;
+    color: #1d4ed8;
   }
   
   ion-button {
@@ -42,12 +46,18 @@
     --padding-end: 8px;
     width: 32px;
     height: 32px;
+    --background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+    --color: white;
+    
+    &:hover {
+      --background: linear-gradient(135deg, #1d4ed8 0%, #1e40af 100%);
+    }
   }
 }
 
 .subtotal {
   font-weight: 600;
-  color: var(--ion-color-primary);
+  color: #3b82f6;
 }
 
 .cart-summary {

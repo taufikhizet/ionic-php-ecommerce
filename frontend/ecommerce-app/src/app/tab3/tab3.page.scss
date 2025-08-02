@@ -1,3 +1,4 @@
+// Tab3 (Profile) - Purple Theme
 .profile-section {
   padding: 20px;
 }
@@ -11,13 +12,14 @@
     
     ion-icon {
       font-size: 80px;
-      color: var(--ion-color-primary);
+      color: #8b5cf6;
     }
   }
   
   h2 {
     margin: 8px 0 4px 0;
     font-weight: 600;
+    color: #7c3aed;
   }
   
   p {
@@ -31,6 +33,13 @@
   
   ion-segment {
     margin-bottom: 30px;
+    --background: rgba(139, 92, 246, 0.1);
+    
+    ion-segment-button {
+      --color: #8b5cf6;
+      --color-checked: white;
+      --background-checked: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    }
   }
 }
 
@@ -40,6 +49,9 @@
   ion-button {
     height: 50px;
     font-weight: 600;
+    --background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+    --background-hover: linear-gradient(135deg, #7c3aed 0%, #6d28d9 100%);
+    --color: white;
   }
 }
 
