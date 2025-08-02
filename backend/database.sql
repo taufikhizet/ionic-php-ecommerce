@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS products (
     category_id INT NOT NULL,
     name VARCHAR(200) NOT NULL,
     description TEXT,
-    price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(12,0) NOT NULL COMMENT 'Price in Indonesian Rupiah (IDR)',
     stock INT DEFAULT 0,
     image VARCHAR(255),
     images JSON,
@@ -57,7 +57,7 @@ CREATE TABLE IF NOT EXISTS cart (
 CREATE TABLE IF NOT EXISTS orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT NOT NULL,
-    total_amount DECIMAL(10,2) NOT NULL,
+    total_amount DECIMAL(12,0) NOT NULL COMMENT 'Total amount in Indonesian Rupiah (IDR)',
     shipping_address TEXT NOT NULL,
     status ENUM('pending', 'processing', 'shipped', 'delivered', 'cancelled') DEFAULT 'pending',
     payment_status ENUM('pending', 'paid', 'failed') DEFAULT 'pending',
@@ -72,7 +72,7 @@ CREATE TABLE IF NOT EXISTS order_items (
     order_id INT NOT NULL,
     product_id INT NOT NULL,
     quantity INT NOT NULL,
-    price DECIMAL(10,2) NOT NULL,
+    price DECIMAL(12,0) NOT NULL COMMENT 'Price in Indonesian Rupiah (IDR)',
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
     FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
 );
@@ -84,15 +84,15 @@ INSERT INTO categories (name, description, image) VALUES
 ('Books', 'Books and educational materials', 'books.jpg'),
 ('Home & Garden', 'Home improvement and garden supplies', 'home.jpg');
 
--- Insert sample products
+-- Insert sample products dengan harga dalam Rupiah
 INSERT INTO products (category_id, name, description, price, stock, image, rating) VALUES
-(1, 'Smartphone X1', 'Latest smartphone with advanced features', 599.99, 50, 'phone1.jpg', 4.5),
-(1, 'Laptop Pro', 'High-performance laptop for professionals', 1299.99, 30, 'laptop1.jpg', 4.8),
-(1, 'Wireless Headphones', 'Premium noise-cancelling headphones', 199.99, 100, 'headphones1.jpg', 4.3),
-(2, 'T-Shirt Cotton', 'Comfortable cotton t-shirt', 24.99, 200, 'tshirt1.jpg', 4.2),
-(2, 'Jeans Classic', 'Classic fit denim jeans', 59.99, 150, 'jeans1.jpg', 4.0),
-(3, 'Programming Book', 'Learn programming fundamentals', 39.99, 80, 'book1.jpg', 4.7),
-(4, 'Garden Tools Set', 'Complete set of garden tools', 89.99, 25, 'tools1.jpg', 4.4);
+(1, 'Smartphone X1', 'Smartphone terbaru dengan fitur canggih', 8999000, 50, 'phone1.jpg', 4.5),
+(1, 'Laptop Pro', 'Laptop performa tinggi untuk profesional', 19499000, 30, 'laptop1.jpg', 4.8),
+(1, 'Wireless Headphones', 'Headphone premium noise-cancelling', 2999000, 100, 'headphones1.jpg', 4.3),
+(2, 'T-Shirt Cotton', 'Kaos katun yang nyaman', 374000, 200, 'tshirt1.jpg', 4.2),
+(2, 'Jeans Classic', 'Celana jeans classic fit', 899000, 150, 'jeans1.jpg', 4.0),
+(3, 'Programming Book', 'Belajar dasar-dasar programming', 599000, 80, 'book1.jpg', 4.7),
+(4, 'Garden Tools Set', 'Set lengkap peralatan kebun', 1349000, 25, 'tools1.jpg', 4.4);
 
 -- Insert sample admin user (password: admin123)
 INSERT INTO users (name, email, password, role) VALUES

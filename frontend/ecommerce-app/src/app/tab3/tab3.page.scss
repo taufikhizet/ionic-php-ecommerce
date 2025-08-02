@@ -6,6 +6,20 @@
     ion-button {
       --color: white;
       
+      &.admin-button {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        padding: 8px 12px;
+        
+        .admin-text {
+          color: white;
+          font-size: 14px;
+          font-weight: 500;
+          margin-left: 4px;
+        }
+      }
+      
       ion-icon {
         color: #fbbf24; // Keep warning color for admin icon
       }

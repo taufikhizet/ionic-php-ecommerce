@@ -16,8 +16,10 @@
       *ngIf="isLoggedIn && currentUser?.role === 'admin'"
       (click)="openAdmin()"
       fill="clear"
+      class="admin-button"
     >
       <ion-icon name="shield-outline" color="warning"></ion-icon>
+      <span class="admin-text">Admin Panel</span>
     </ion-button>
   </div>
 </div>

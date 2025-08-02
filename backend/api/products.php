@@ -33,7 +33,7 @@ switch($method) {
                     "category_name" => $product->category_name,
                     "name" => $product->name,
                     "description" => $product->description,
-                    "price" => (float)$product->price,
+                    "price" => (int)$product->price, // Integer for Rupiah (no decimal)
                     "stock" => (int)$product->stock,
                     "image" => $product->image,
                     "rating" => (float)$product->rating,
@@ -68,7 +68,7 @@ switch($method) {
                         "category_name" => $category_name,
                         "name" => $name,
                         "description" => $description,
-                        "price" => $price,
+                        "price" => (int)$price, // Integer for Rupiah (no decimal)
                         "stock" => $stock,
                         "image" => $image,
                         "rating" => $rating,
@@ -103,7 +103,7 @@ switch($method) {
                         "category_name" => $category_name,
                         "name" => $name,
                         "description" => $description,
-                        "price" => $price,
+                        "price" => (int)$price, // Integer for Rupiah (no decimal)
                         "stock" => $stock,
                         "image" => $image,
                         "rating" => $rating,
@@ -135,7 +135,7 @@ switch($method) {
                         "category_name" => $category_name,
                         "name" => $name,
                         "description" => $description,
-                        "price" => $price,
+                        "price" => (int)$price, // Integer for Rupiah (no decimal)
                         "stock" => $stock,
                         "image" => $image,
                         "rating" => $rating,

@@ -62,7 +62,7 @@ switch($method) {
                     "id" => $id,
                     "product_id" => $product_id,
                     "name" => $name,
-                    "price" => $price,
+                    "price" => (int)$price, // Integer for Rupiah (no decimal)
                     "quantity" => $quantity,
                     "image" => $image,
                     "stock" => $stock,
