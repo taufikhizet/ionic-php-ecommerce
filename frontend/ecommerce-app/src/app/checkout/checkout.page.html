@@ -4,6 +4,11 @@
       <ion-back-button defaultHref="/tabs/tab2" color="light"></ion-back-button>
     </ion-buttons>
     <ion-title color="light">Checkout</ion-title>
+    <ion-buttons slot="end">
+      <ion-button fill="clear" (click)="goToOrderHistory()">
+        <ion-icon name="receipt-outline" color="light"></ion-icon>
+      </ion-button>
+    </ion-buttons>
   </ion-toolbar>
 </ion-header>
 

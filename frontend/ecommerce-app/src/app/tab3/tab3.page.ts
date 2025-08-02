@@ -259,6 +259,10 @@ export class Tab3Page implements OnInit {
     this.router.navigate(['/edit-profile']);
   }
 
+  navigateToOrderHistory() {
+    this.router.navigate(['/order-history']);
+  }
+
   async logout() {
     const alert = await this.alertController.create({
       header: 'Logout',

@@ -42,8 +42,7 @@ export class OrderSuccessPage implements OnInit {
   }
 
   goToOrders() {
-    // Navigate to orders page (to be implemented)
-    this.router.navigate(['/tabs/tab1']); // For now redirect to home
+    this.router.navigate(['/order-history']);
   }
 
   getPaymentMethodName(method: string): string {
@@ -53,6 +52,32 @@ export class OrderSuccessPage implements OnInit {
       'ewallet': 'E-Wallet'
     };
     return paymentMethods[method] || method;
+  }
+
+  formatShippingAddress(shippingAddress: any): string {
+    if (!shippingAddress) return '';
+    
+    if (typeof shippingAddress === 'string') {
+      try {
+        // Try to parse if it's a JSON string
+        const parsed = JSON.parse(shippingAddress);
+        return this.buildAddressString(parsed);
+      } catch {
+        // If parsing fails, return as is
+        return shippingAddress;
+      }
+    }
+    
+    // If it's already an object
+    return this.buildAddressString(shippingAddress);
+  }
+
+  private buildAddressString(addressObj: any): string {
+    const parts = [];
+    if (addressObj.name) parts.push(addressObj.name);
+    if (addressObj.phone) parts.push(addressObj.phone);
+    if (addressObj.address) parts.push(addressObj.address);
+    return parts.join('\n');
   }
 
   formatCurrency(amount: number): string {

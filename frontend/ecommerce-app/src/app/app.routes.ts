@@ -25,4 +25,8 @@ export const routes: Routes = [
     path: 'order-success',
     loadComponent: () => import('./order-success/order-success.page').then( m => m.OrderSuccessPage)
   },
+  {
+    path: 'order-history',
+    loadComponent: () => import('./order-history/order-history.page').then( m => m.OrderHistoryPage)
+  },
 ];

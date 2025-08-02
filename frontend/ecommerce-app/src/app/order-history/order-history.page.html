@@ -1,0 +1,177 @@
+<ion-header [translucent]="true" class="order-history-gradient-header">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-back-button defaultHref="/tabs/tab3" color="light"></ion-back-button>
+    </ion-buttons>
+    <ion-title color="light">Riwayat Pesanan</ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Pull to Refresh -->
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content 
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Tarik untuk memuat ulang"
+      refreshingSpinner="circles"
+      refreshingText="Memuat ulang...">
+    </ion-refresher-content>
+  </ion-refresher>
+
+  <div class="order-history-container">
+    
+    <!-- Status Filter Section -->
+    <div class="filter-section">
+      <div class="status-segment-scroll">
+        <div class="status-segment">
+          <ion-segment-button 
+            value="all"
+            [class.segment-button-checked]="selectedSegment === 'all'"
+            (click)="onSegmentChange({detail: {value: 'all'}})"
+          >
+            <ion-label>Semua</ion-label>
+          </ion-segment-button>
+          <ion-segment-button 
+            value="pending"
+            [class.segment-button-checked]="selectedSegment === 'pending'"
+            (click)="onSegmentChange({detail: {value: 'pending'}})"
+          >
+            <ion-label>Menunggu</ion-label>
+          </ion-segment-button>
+          <ion-segment-button 
+            value="processing"
+            [class.segment-button-checked]="selectedSegment === 'processing'"
+            (click)="onSegmentChange({detail: {value: 'processing'}})"
+          >
+            <ion-label>Diproses</ion-label>
+          </ion-segment-button>
+          <ion-segment-button 
+            value="shipped"
+            [class.segment-button-checked]="selectedSegment === 'shipped'"
+            (click)="onSegmentChange({detail: {value: 'shipped'}})"
+          >
+            <ion-label>Dikirim</ion-label>
+          </ion-segment-button>
+          <ion-segment-button 
+            value="delivered"
+            [class.segment-button-checked]="selectedSegment === 'delivered'"
+            (click)="onSegmentChange({detail: {value: 'delivered'}})"
+          >
+            <ion-label>Selesai</ion-label>
+          </ion-segment-button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Orders List -->
+    <div class="orders-list" *ngIf="!isLoading">
+      
+      <!-- Empty State -->
+      <div class="empty-state" *ngIf="getFilteredOrders().length === 0">
+        <ion-icon name="receipt-outline" class="empty-icon"></ion-icon>
+        <h3>Tidak ada pesanan</h3>
+        <p>Belum ada riwayat pesanan untuk status ini</p>
+        <ion-button 
+          expand="block" 
+          fill="outline" 
+          (click)="router.navigate(['/tabs/tab1'])"
+        >
+          Mulai Belanja
+        </ion-button>
+      </div>
+
+      <!-- Orders Cards -->
+      <ion-card 
+        class="order-card" 
+        *ngFor="let order of getFilteredOrders()" 
+        button 
+        (click)="viewOrderDetail(order)"
+      >
+        <ion-card-header>
+          <div class="order-header">
+            <div class="order-info">
+              <ion-card-title class="order-number">
+                {{ order.order_number }}
+              </ion-card-title>
+              <ion-card-subtitle class="order-date">
+                {{ formatDate(order.created_at) }}
+              </ion-card-subtitle>
+            </div>
+            <ion-chip [color]="getStatusColor(order.status)" class="status-chip">
+              {{ getStatusText(order.status) }}
+            </ion-chip>
+          </div>
+        </ion-card-header>
+
+        <ion-card-content>
+          <div class="order-details">
+            
+            <!-- Items Summary -->
+            <div class="items-summary">
+              <ion-icon name="cube-outline" class="summary-icon"></ion-icon>
+              <span>{{ order.total_items }} item(s)</span>
+            </div>
+
+            <!-- Payment Method -->
+            <div class="payment-method">
+              <ion-icon name="card-outline" class="summary-icon"></ion-icon>
+              <span>{{ getPaymentMethodName(order.payment_method) }}</span>
+            </div>
+
+            <!-- Shipping Address -->
+            <div class="shipping-address">
+              <ion-icon name="location-outline" class="summary-icon"></ion-icon>
+              <span>{{ formatShippingAddress(order.shipping_address) }}</span>
+            </div>
+
+            <!-- Total Amount -->
+            <div class="order-total">
+              <strong>Total: {{ formatCurrency(order.total) }}</strong>
+            </div>
+
+          </div>
+        </ion-card-content>
+
+        <div class="order-actions">
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            (click)="viewOrderDetail(order); $event.stopPropagation()"
+          >
+            <ion-icon name="eye-outline" slot="start"></ion-icon>
+            Detail
+          </ion-button>
+          
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            color="success"
+            (click)="reorderItems(order); $event.stopPropagation()"
+            *ngIf="order.status === 'delivered'"
+          >
+            <ion-icon name="repeat-outline" slot="start"></ion-icon>
+            Pesan Ulang
+          </ion-button>
+          
+          <ion-button 
+            fill="clear" 
+            size="small" 
+            color="primary"
+            *ngIf="order.status === 'delivered'"
+          >
+            <ion-icon name="star-outline" slot="start"></ion-icon>
+            Beri Rating
+          </ion-button>
+        </div>
+      </ion-card>
+
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading-container" *ngIf="isLoading">
+      <ion-spinner name="crescent"></ion-spinner>
+      <p>Memuat riwayat pesanan...</p>
+    </div>
+
+  </div>
+</ion-content>

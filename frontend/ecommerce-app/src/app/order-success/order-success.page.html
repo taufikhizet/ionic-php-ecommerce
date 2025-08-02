@@ -57,7 +57,11 @@
           <ion-item>
             <ion-label>
               <h3>Alamat Pengiriman</h3>
-              <p>{{ orderData.shipping_address }}</p>
+              <div *ngIf="orderData.shipping_address">
+                <p><strong>{{ orderData.shipping_address.name }}</strong></p>
+                <p *ngIf="orderData.shipping_address.phone">{{ orderData.shipping_address.phone }}</p>
+                <p>{{ orderData.shipping_address.address }}</p>
+              </div>
             </ion-label>
           </ion-item>
 

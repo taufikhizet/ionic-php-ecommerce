@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from '@angular/router';
 import { AlertController, ToastController, LoadingController } from '@ionic/angular';
 import { CommonModule } from '@angular/common';
@@ -46,11 +46,12 @@ interface OrderData {
   standalone: true,
   imports: [IonicModule, CommonModule, FormsModule]
 })
-export class CheckoutPage implements OnInit {
+export class CheckoutPage implements OnInit, OnDestroy {
   cartItems: CartItem[] = [];
   shippingAddress: ShippingAddress | null = null;
   selectedPaymentMethod: string = 'cod';
   isLoading = false;
+  private currentLoading: any = null; // Keep reference to current loading
 
   // Payment methods
   paymentMethods: PaymentMethod[] = [
@@ -76,10 +77,36 @@ export class CheckoutPage implements OnInit {
     private apiService: ApiService
   ) {}
 
-  ngOnInit() {
+  async ngOnInit() {
     this.loadCartItems();
-    this.loadShippingAddress();
+    await this.loadShippingAddress(); // Wait for address to load
     this.calculateTotal();
+    
+    // Subscribe to profile updates to refresh shipping address
+    this.apiService.profileUpdated$.subscribe(updated => {
+      if (updated) {
+        this.loadShippingAddress();
+        this.apiService.resetProfileUpdateFlag();
+      }
+    });
+  }
+
+  async ionViewWillEnter() {
+    // Refresh shipping address every time user enters this page
+    // This is important when user comes back from edit-profile
+    await this.loadShippingAddress();
+  }
+
+  ngOnDestroy() {
+    // Clean up loading if it exists
+    if (this.currentLoading) {
+      try {
+        this.currentLoading.dismiss();
+      } catch (error) {
+        console.log('Loading already dismissed');
+      }
+    }
+    this.isLoading = false;
   }
 
   loadCartItems() {
@@ -106,22 +133,43 @@ export class CheckoutPage implements OnInit {
     }
   }
 
-  loadShippingAddress() {
-    // Load user's address from profile
+  async loadShippingAddress() {
+    // First try to load from API to get the latest data
+    try {
+      const response = await this.apiService.getProfile().toPromise();
+      if (response && response.user && response.user.name && response.user.address) {
+        this.shippingAddress = {
+          name: response.user.name,
+          phone: response.user.phone || '',
+          address: response.user.address
+        };
+        console.log('Shipping address loaded from API:', this.shippingAddress);
+        return; // Exit early if we got data from API
+      }
+    } catch (error) {
+      console.error('Failed to load profile from API:', error);
+    }
+
+    // Fallback: Load user's address from localStorage
     const userData = localStorage.getItem('user') || localStorage.getItem('userData');
     if (userData) {
       try {
         const user = JSON.parse(userData);
-        if (user.name && user.phone && user.address) {
+        if (user.name && user.address) { // Remove phone requirement
           this.shippingAddress = {
             name: user.name,
-            phone: user.phone,
+            phone: user.phone || '',
             address: user.address
           };
+          console.log('Shipping address loaded from localStorage:', this.shippingAddress);
+        } else {
+          console.log('Incomplete user data in localStorage:', user);
         }
       } catch (error) {
         console.error('Failed to parse user data:', error);
       }
+    } else {
+      console.log('No user data found in localStorage');
     }
   }
 
@@ -184,10 +232,10 @@ export class CheckoutPage implements OnInit {
     }
 
     this.isLoading = true;
-    const loading = await this.loadingController.create({
+    this.currentLoading = await this.loadingController.create({
       message: 'Memproses pesanan...'
     });
-    await loading.present();
+    await this.currentLoading.present();
 
     try {
       const orderData: OrderData = {
@@ -209,12 +257,25 @@ export class CheckoutPage implements OnInit {
         // Clear cart after successful order
         await this.clearCart();
         
+        // Reset loading state and dismiss loading before navigation
+        this.isLoading = false;
+        try {
+          if (this.currentLoading) {
+            await this.currentLoading.dismiss();
+            this.currentLoading = null;
+          }
+        } catch (dismissError) {
+          // Loading might already be dismissed, ignore error
+          console.log('Loading already dismissed or destroyed');
+        }
+        
         // Navigate to order success page with actual order data
         this.router.navigate(['/order-success'], {
           state: { 
             orderData: response.data
           }
         });
+        return; // Exit early to prevent finally block execution
       } else {
         throw new Error(response.message || 'Gagal membuat pesanan');
       }
@@ -227,7 +288,16 @@ export class CheckoutPage implements OnInit {
       );
     } finally {
       this.isLoading = false;
-      await loading.dismiss();
+      // Check if loading still exists before dismissing
+      if (this.currentLoading) {
+        try {
+          await this.currentLoading.dismiss();
+          this.currentLoading = null;
+        } catch (dismissError) {
+          // Loading might already be dismissed, ignore error
+          console.log('Loading already dismissed or destroyed');
+        }
+      }
     }
   }
 
@@ -242,6 +312,10 @@ export class CheckoutPage implements OnInit {
 
   goBack() {
     this.router.navigate(['/tabs/tab2']);
+  }
+
+  goToOrderHistory() {
+    this.router.navigate(['/order-history']);
   }
 
   async showToast(message: string, color: string) {
