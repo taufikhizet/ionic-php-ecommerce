@@ -116,11 +116,14 @@ export class Tab2Page implements OnInit {
   }
 
   decreaseQuantity(item: CartItem) {
-    if (item.quantity <= 1) {
+    const newQuantity = item.quantity - 1;
+    
+    // Jika quantity akan menjadi 0, hapus item dari cart
+    if (newQuantity <= 0) {
+      this.removeItemWithConfirm(item);
       return;
     }
 
-    const newQuantity = item.quantity - 1;
     this.updateItemQuantity(item, newQuantity);
   }
 
@@ -144,6 +147,29 @@ export class Tab2Page implements OnInit {
         await toast.present();
       }
     });
+  }
+
+  async removeItemWithConfirm(item: CartItem) {
+    const alert = await this.alertController.create({
+      header: 'Hapus Produk',
+      message: `Apakah Anda yakin ingin menghapus "${item.name}" dari keranjang?`,
+      subHeader: 'Quantity akan menjadi 0 dan produk akan dihapus.',
+      buttons: [
+        {
+          text: 'Batal',
+          role: 'cancel'
+        },
+        {
+          text: 'Hapus',
+          role: 'destructive',
+          handler: () => {
+            this.confirmRemoveItem(item);
+          }
+        }
+      ]
+    });
+
+    await alert.present();
   }
 
   async removeItem(item: CartItem) {
@@ -198,6 +224,15 @@ export class Tab2Page implements OnInit {
 
   getTotalItems(): number {
     return this.cartItems.reduce((total, item) => total + item.quantity, 0);
+  }
+
+  formatRupiah(price: number): string {
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(price);
   }
 
   getProductImage(imageName: string): string {

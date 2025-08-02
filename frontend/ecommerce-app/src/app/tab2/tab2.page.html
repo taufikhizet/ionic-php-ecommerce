@@ -14,8 +14,8 @@
   <!-- Login Required Message -->
   <div class="login-required" *ngIf="!isLoggedIn">
     <ion-icon name="cart-outline" size="large"></ion-icon>
-    <h3>Login Required</h3>
-    <p>Please login to view your shopping cart</p>
+    <h3>Login Diperlukan</h3>
+    <p>Silakan login untuk melihat keranjang belanja Anda</p>
     <ion-button expand="block" (click)="goToLogin()"> Login </ion-button>
   </div>
 
@@ -25,10 +25,10 @@
     *ngIf="isLoggedIn && cartItems.length === 0 && !isLoading"
   >
     <ion-icon name="cart-outline" size="large"></ion-icon>
-    <h3>Your cart is empty</h3>
-    <p>Add some products to get started</p>
+    <h3>Keranjang Anda kosong</h3>
+    <p>Tambahkan beberapa produk untuk memulai</p>
     <ion-button expand="block" (click)="continueShopping()">
-      Continue Shopping
+      Lanjutkan Belanja
     </ion-button>
   </div>
 
@@ -46,8 +46,8 @@
 
           <ion-label>
             <h2>{{item.name}}</h2>
-            <p>${{item.price}} each</p>
-            <p>Stock: {{item.stock}}</p>
+            <p>{{formatRupiah(item.price)}} per item</p>
+            <p>Stok: {{item.stock}}</p>
           </ion-label>
 
           <div slot="end" class="item-controls">
@@ -56,7 +56,7 @@
                 fill="clear"
                 size="small"
                 (click)="decreaseQuantity(item)"
-                [disabled]="item.quantity <= 1"
+                class="quantity-btn"
               >
                 <ion-icon name="remove"></ion-icon>
               </ion-button>
@@ -68,12 +68,13 @@
                 size="small"
                 (click)="increaseQuantity(item)"
                 [disabled]="item.quantity >= item.stock"
+                class="quantity-btn"
               >
                 <ion-icon name="add"></ion-icon>
               </ion-button>
             </div>
 
-            <div class="subtotal">${{item.subtotal.toFixed(2)}}</div>
+            <div class="subtotal">{{formatRupiah(item.subtotal)}}</div>
           </div>
         </ion-item>
 
@@ -88,23 +89,23 @@
     <!-- Cart Summary -->
     <ion-card class="cart-summary">
       <ion-card-header>
-        <ion-card-title>Order Summary</ion-card-title>
+        <ion-card-title>Ringkasan Pesanan</ion-card-title>
       </ion-card-header>
 
       <ion-card-content>
         <div class="summary-row">
           <span>Subtotal ({{getTotalItems()}} items):</span>
-          <span>${{cartTotal.toFixed(2)}}</span>
+          <span>{{formatRupiah(cartTotal)}}</span>
         </div>
 
         <div class="summary-row">
-          <span>Shipping:</span>
-          <span>Free</span>
+          <span>Ongkos Kirim:</span>
+          <span>Gratis</span>
         </div>
 
         <div class="summary-row total">
           <span><strong>Total:</strong></span>
-          <span><strong>${{cartTotal.toFixed(2)}}</strong></span>
+          <span><strong>{{formatRupiah(cartTotal)}}</strong></span>
         </div>
 
         <ion-button
@@ -114,7 +115,18 @@
           (click)="proceedToCheckout()"
           [disabled]="cartItems.length === 0"
         >
-          Proceed to Checkout
+          Lanjut ke Pembayaran
+        </ion-button>
+
+        <ion-button
+          expand="block"
+          fill="outline"
+          color="danger"
+          class="clear-cart-btn"
+          (click)="clearCart()"
+          [disabled]="cartItems.length === 0"
+        >
+          Kosongkan Keranjang
         </ion-button>
       </ion-card-content>
     </ion-card>
