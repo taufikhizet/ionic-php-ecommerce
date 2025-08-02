@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { IonicModule } from '@ionic/angular';
 import { Router } from '@angular/router';
 import { ApiService } from '../services/api.service';
-import { LoadingController, AlertController } from '@ionic/angular';
+import { LoadingController, AlertController, ModalController } from '@ionic/angular';
 import { addIcons } from 'ionicons';
 import { 
   arrowBackOutline, 
@@ -17,6 +17,7 @@ import {
   cardOutline,
   locationOutline
 } from 'ionicons/icons';
+import { OrderDetailModalComponent } from './order-detail-modal.component';
 
 interface OrderItem {
   id: number;
@@ -64,7 +65,8 @@ export class OrderHistoryPage implements OnInit {
     public router: Router,
     private apiService: ApiService,
     private loadingController: LoadingController,
-    private alertController: AlertController
+    private alertController: AlertController,
+    private modalController: ModalController
   ) { 
     addIcons({
       arrowBackOutline,
@@ -139,19 +141,14 @@ export class OrderHistoryPage implements OnInit {
   }
 
   async viewOrderDetail(order: Order) {
-    // Navigate to order detail page or show modal
-    // For now, let's show an alert with order details
-    const alert = await this.alertController.create({
-      header: `Pesanan ${order.order_number}`,
-      message: `
-        Status: ${this.getStatusText(order.status)}
-        Total: ${this.formatCurrency(order.total)}
-        Metode Pembayaran: ${this.getPaymentMethodName(order.payment_method)}
-        Tanggal: ${this.formatDate(order.created_at)}
-      `,
-      buttons: ['OK']
+    const modal = await this.modalController.create({
+      component: OrderDetailModalComponent,
+      componentProps: {
+        order: order
+      },
+      cssClass: 'order-detail-modal'
     });
-    await alert.present();
+    return await modal.present();
   }
 
   getStatusText(status: string): string {

@@ -1,0 +1,299 @@
+// Modal Header with Gradient Theme
+.modal-header {
+  ion-toolbar {
+    --background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    --color: white;
+    
+    ion-title {
+      font-weight: 600;
+      text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+    
+    ion-button {
+      --color: white;
+      
+      ion-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}
+
+// Modal Content
+.modal-content {
+  --background: #f8f9fa;
+}
+
+.order-detail-container {
+  padding: 0;
+  
+  // Order Header Section
+  .order-header-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+    padding: 24px 20px;
+    color: white;
+    margin-bottom: 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    
+    .order-info {
+      flex: 1;
+      
+      .order-number {
+        font-size: 1.5rem;
+        font-weight: 700;
+        margin: 0 0 8px 0;
+        text-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+      }
+      
+      .order-date {
+        font-size: 0.9rem;
+        margin: 0;
+        opacity: 0.9;
+      }
+    }
+    
+    .status-chip {
+      background: rgba(255, 255, 255, 0.2);
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      backdrop-filter: blur(10px);
+      font-weight: 600;
+      
+      ion-icon {
+        margin-right: 4px;
+      }
+      
+      ion-label {
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
+  
+  // Details Section
+  .details-section {
+    padding: 0 16px 16px 16px;
+    
+    .detail-card {
+      margin-bottom: 16px;
+      border-radius: 16px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
+      
+      ion-card-header {
+        background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+        border-bottom: 1px solid #dee2e6;
+        padding: 16px;
+        
+        .card-title {
+          display: flex;
+          align-items: center;
+          font-size: 1.1rem;
+          font-weight: 600;
+          color: #495057;
+          margin: 0;
+          
+          .title-icon {
+            margin-right: 8px;
+            color: #667eea;
+            font-size: 1.3rem;
+          }
+        }
+      }
+      
+      ion-card-content {
+        padding: 16px;
+        
+        .detail-row {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 12px;
+          padding-bottom: 8px;
+          border-bottom: 1px solid #f1f3f4;
+          
+          &:last-child {
+            margin-bottom: 0;
+            border-bottom: none;
+            padding-bottom: 0;
+          }
+          
+          .label {
+            font-weight: 500;
+            color: #6c757d;
+            flex: 1;
+          }
+          
+          .value {
+            font-weight: 600;
+            color: #495057;
+            text-align: right;
+            
+            &.payment-paid {
+              color: #28a745;
+            }
+            
+            &.payment-pending {
+              color: #ffc107;
+            }
+            
+            &.payment-refunded {
+              color: #6c757d;
+            }
+          }
+          
+          &.total-row {
+            border-top: 2px solid #667eea;
+            padding-top: 12px;
+            margin-top: 8px;
+            
+            .total-amount {
+              color: #667eea;
+              font-size: 1.2rem;
+            }
+          }
+        }
+        
+        .shipping-info {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: #495057;
+          background: #f8f9fa;
+          padding: 12px;
+          border-radius: 8px;
+          border-left: 4px solid #667eea;
+        }
+        
+        .notes-text {
+          font-size: 0.95rem;
+          line-height: 1.6;
+          color: #495057;
+          background: #fff3cd;
+          padding: 12px;
+          border-radius: 8px;
+          border-left: 4px solid #ffc107;
+          margin: 0;
+        }
+        
+        // Timeline Styling
+        .timeline {
+          .timeline-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 16px;
+            
+            &:last-child {
+              margin-bottom: 0;
+            }
+            
+            .timeline-marker {
+              width: 12px;
+              height: 12px;
+              background: #667eea;
+              border-radius: 50%;
+              margin-right: 12px;
+              margin-top: 4px;
+              flex-shrink: 0;
+            }
+            
+            .timeline-content {
+              flex: 1;
+              
+              h4 {
+                font-size: 0.95rem;
+                font-weight: 600;
+                color: #495057;
+                margin: 0 0 4px 0;
+              }
+              
+              p {
+                font-size: 0.85rem;
+                color: #6c757d;
+                margin: 0;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .order-detail-container {
+    .order-header-section {
+      padding: 20px 16px;
+      
+      .order-info {
+        .order-number {
+          font-size: 1.3rem;
+        }
+      }
+      
+      .status-chip {
+        font-size: 0.8rem;
+      }
+    }
+    
+    .details-section {
+      padding: 0 12px 12px 12px;
+      
+      .detail-card {
+        margin-bottom: 12px;
+        
+        ion-card-header {
+          padding: 12px;
+          
+          .card-title {
+            font-size: 1rem;
+            
+            .title-icon {
+              font-size: 1.2rem;
+            }
+          }
+        }
+        
+        ion-card-content {
+          padding: 12px;
+          
+          .detail-row {
+            margin-bottom: 10px;
+            
+            .label {
+              font-size: 0.9rem;
+            }
+            
+            .value {
+              font-size: 0.9rem;
+            }
+            
+            &.total-row {
+              .total-amount {
+                font-size: 1.1rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
+
+// Global Modal Styling
+:host {
+  --ion-backdrop-opacity: 0.6;
+}
+
+.order-detail-modal {
+  --width: 100%;
+  --max-width: 600px;
+  --height: 90%;
+  --border-radius: 16px 16px 0 0;
+  
+  @media (min-width: 768px) {
+    --height: 80%;
+    --border-radius: 16px;
+  }
+}
