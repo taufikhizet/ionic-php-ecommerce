@@ -429,35 +429,11 @@ ion-badge {
   box-shadow: 
     0 4px 20px rgba(0, 0, 0, 0.08),
     0 2px 6px rgba(0, 0, 0, 0.04);
-  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
   border: 1px solid rgba(0, 0, 0, 0.05);
   position: relative;
   display: flex;
   flex-direction: column;
   height: 100%;
-  
-  // Entrance animation
-  animation: fadeInUp 0.6s ease-out;
-  
-  &:hover {
-    transform: translateY(-8px) scale(1.02);
-    box-shadow: 
-      0 12px 40px rgba(0, 0, 0, 0.15),
-      0 6px 16px rgba(0, 0, 0, 0.1);
-    border-color: rgba(102, 126, 234, 0.3);
-    
-    .product-image {
-      transform: scale(1.05);
-    }
-    
-    .product-overlay {
-      opacity: 1;
-    }
-    
-    .add-to-cart-btn {
-      transform: scale(1.05);
-    }
-  }
 }
 
 .product-image-container {
@@ -476,7 +452,6 @@ ion-badge {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
   display: block;
 }
 
@@ -491,7 +466,6 @@ ion-badge {
   align-items: center;
   justify-content: center;
   opacity: 0;
-  transition: opacity 0.3s ease;
   
   .view-icon {
     color: white;
@@ -610,7 +584,6 @@ ion-badge {
   font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
-  transition: all 0.3s ease;
   
   &:disabled {
     --background: #e9ecef;
@@ -651,16 +624,12 @@ ion-badge {
     pointer-events: none;
     
     .product-image {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
+      background: #f0f0f0;
     }
     
     .product-name,
     .product-price {
-      background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
-      background-size: 200% 100%;
-      animation: shimmer 2s infinite;
+      background: #f0f0f0;
       color: transparent;
       border-radius: 4px;
     }
@@ -678,14 +647,6 @@ ion-badge {
 }
 
 // Animations (removed product card animations)
-@keyframes shimmer {
-  0% {
-    background-position: -200% 0;
-  }
-  100% {
-    background-position: 200% 0;
-  }
-}
 
 .loading-container {
   display: flex;
@@ -700,7 +661,6 @@ ion-badge {
     height: 48px;
     --color: #667eea;
     margin-bottom: 20px;
-    animation: pulse 1.5s ease-in-out infinite;
   }
   
   p {
@@ -708,29 +668,6 @@ ion-badge {
     color: #666;
     font-size: 16px;
     font-weight: 500;
-    animation: fadeInUp 0.5s ease-out;
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    opacity: 1;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.7;
-    transform: scale(1.05);
-  }
-}
-
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(20px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
   }
 }
 
@@ -742,7 +679,6 @@ ion-badge {
   padding: 60px 20px;
   text-align: center;
   min-height: 300px;
-  animation: fadeIn 0.6s ease-out;
   
   ion-icon {
     font-size: 80px;
