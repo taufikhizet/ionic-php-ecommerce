@@ -61,20 +61,49 @@
     
     // Cart button specific styling
     &.cart-button {
+      position: relative;
+      overflow: visible;
+      --padding-start: 12px;
+      --padding-end: 12px;
+      
+      // Make cart icon larger to accommodate badge
+      ion-icon {
+        font-size: 26px !important;
+        position: relative;
+        z-index: 1;
+      }
+      
       ion-badge {
         position: absolute;
-        top: 6px;
-        right: 6px;
+        top: -6px;
+        right: -6px;
         min-width: 18px;
         height: 18px;
+        line-height: 18px;
         font-size: 10px;
-        font-weight: 600;
-        background: #ef4444;
-        color: white;
+        font-weight: 700;
+        background: #ef4444 !important;
+        color: white !important;
         border: 2px solid white;
-        box-shadow: 0 2px 8px rgba(239, 68, 68, 0.3);
+        border-radius: 50%;
+        box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
         animation: pulse 2s infinite;
-        z-index: 10;
+        z-index: 15;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transform: scale(1);
+        transition: all 0.2s ease;
+        
+        // Ensure badge appears above everything
+        --background: #ef4444 !important;
+        --color: white !important;
+      }
+      
+      // Badge hover effect
+      &:hover ion-badge {
+        transform: scale(1.1);
+        box-shadow: 0 3px 15px rgba(239, 68, 68, 0.6);
       }
     }
   }
@@ -173,13 +202,48 @@
   position: relative !important;
 }
 
+// Cart Badge Utility Classes
+.cart-badge-enhanced {
+  // Force override Ionic badge styles
+  --background: #ef4444 !important;
+  --color: white !important;
+  
+  // Additional styling for perfect badge appearance
+  border-radius: 50% !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif !important;
+  letter-spacing: -0.5px !important;
+  font-weight: 700 !important;
+  
+  // Ensure it stays visible and positioned correctly
+  opacity: 1 !important;
+  visibility: visible !important;
+  position: absolute !important;
+  
+  // For numbers > 99, show "99+"
+  &.large-count {
+    min-width: 20px;
+    font-size: 8px;
+    padding: 0 2px;
+    border-radius: 10px !important;
+  }
+}
+
 // Animations
 @keyframes pulse {
-  0%, 100% {
+  0% {
     transform: scale(1);
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
   }
   50% {
-    transform: scale(1.1);
+    transform: scale(1.05);
+    box-shadow: 0 3px 16px rgba(239, 68, 68, 0.6);
+  }
+  100% {
+    transform: scale(1);
+    box-shadow: 0 2px 12px rgba(239, 68, 68, 0.4);
   }
 }
 
@@ -199,10 +263,19 @@
 }
 
 // Responsive design
+// Tablet styles
+@media (max-width: 1024px) and (min-width: 769px) {
+  .enhanced-header {
+    padding: 12px 18px;
+    min-height: 64px;
+  }
+}
+
+// Mobile styles
 @media (max-width: 768px) {
   .enhanced-header {
-    padding: 12px 16px;
-    min-height: 64px;
+    padding: 8px 16px;
+    min-height: 56px;
     
     .brand-section {
       gap: 8px;
@@ -249,8 +322,8 @@
 
 @media (max-width: 480px) {
   .enhanced-header {
-    padding: 10px 12px;
-    min-height: 56px;
+    padding: 6px 12px;
+    min-height: 48px;
     
     .brand-section {
       gap: 6px;
@@ -290,6 +363,124 @@
       
       ion-icon {
         font-size: 18px;
+      }
+      
+      // Cart button responsive styling for mobile
+      &.cart-button {
+        --padding-start: 10px;
+        --padding-end: 10px;
+        
+        ion-icon {
+          font-size: 22px !important;
+        }
+        
+        ion-badge {
+          top: -7px;
+          right: -7px;
+          min-width: 15px;
+          height: 15px;
+          line-height: 15px;
+          font-size: 8px;
+          border-width: 1px;
+        }
+      }
+    }
+  }
+}
+
+// Additional media query for very small screens
+@media (max-width: 375px) {
+  .enhanced-header {
+    padding: 4px 8px;
+    min-height: 44px;
+    
+    .header-actions ion-button.cart-button {
+      --padding-start: 8px;
+      --padding-end: 8px;
+      
+      ion-icon {
+        font-size: 21px !important;
+      }
+      
+      ion-badge {
+        top: -6px;
+        right: -6px;
+        min-width: 13px;
+        height: 13px;
+        line-height: 13px;
+        font-size: 7px;
+        border-width: 1px;
+        
+        &.large-count {
+          min-width: 16px;
+          font-size: 6px;
+          border-radius: 8px !important;
+        }
+      }
+    }
+  }
+}
+
+// Landscape mobile optimization
+@media (max-height: 500px) and (orientation: landscape) {
+  .enhanced-header {
+    padding: 2px 12px;
+    min-height: 40px;
+    
+    .brand-section {
+      .brand-icon {
+        width: 32px;
+        height: 32px;
+        
+        ion-icon {
+          font-size: 18px;
+        }
+      }
+      
+      .brand-text {
+        .app-name {
+          font-size: 14px;
+        }
+        
+        .app-tagline {
+          font-size: 9px;
+        }
+      }
+    }
+    
+    .header-actions {
+      gap: 4px;
+      
+      .page-title {
+        font-size: 12px;
+      }
+      
+      ion-button {
+        --padding-start: 4px;
+        --padding-end: 4px;
+        
+        ion-icon {
+          font-size: 18px;
+        }
+        
+        &.cart-button {
+          --padding-start: 6px;
+          --padding-end: 6px;
+          
+          ion-icon {
+            font-size: 22px !important;
+          }
+          
+          ion-badge {
+            top: -5px;
+            right: -5px;
+            min-width: 11px;
+            height: 11px;
+            line-height: 11px;
+            font-size: 6px;
+            border-width: 1px;
+          }
+        }
       }
     }
   }

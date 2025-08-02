@@ -12,13 +12,18 @@
     <span class="page-title">Shop</span>
     <ion-button (click)="openCart()" class="cart-button" fill="clear">
       <ion-icon name="cart-outline"></ion-icon>
-      <ion-badge color="danger" *ngIf="cartItemCount > 0">{{cartItemCount}}</ion-badge>
+      <ion-badge
+        color="danger"
+        [class]="'cart-badge-enhanced ' + (cartItemCount > 99 ? 'large-count' : '')"
+        *ngIf="cartItemCount > 0"
+      >
+        {{cartItemCount > 99 ? '99+' : cartItemCount}}
+      </ion-badge>
     </ion-button>
   </div>
 </div>
 
 <ion-content [fullscreen]="true">
-
   <!-- Enhanced Search Bar -->
   <div class="search-container">
     <div class="search-wrapper">
