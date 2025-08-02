@@ -1,0 +1,180 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> E-Commerce </ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="openCart()">
+        <ion-icon name="cart-outline"></ion-icon>
+        <ion-badge color="danger" *ngIf="cartItemCount > 0"
+          >{{cartItemCount}}</ion-badge
+        >
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">E-Commerce</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Enhanced Search Bar -->
+  <div class="search-container">
+    <div class="search-wrapper">
+      <ion-searchbar
+        [(ngModel)]="searchTerm"
+        (ionInput)="onSearchChange($event)"
+        placeholder="Search by product name..."
+        class="custom-searchbar"
+        show-clear-button="focus"
+        debounce="300"
+      >
+      </ion-searchbar>
+    </div>
+  </div>
+
+  <!-- Search Results Info -->
+  <div
+    class="search-results-info"
+    *ngIf="searchTerm.trim() !== '' && !isLoading"
+  >
+    <div>
+      <span class="search-term">"{{searchTerm}}"</span>
+      <span class="results-count"> - {{products.length}} product(s) found</span>
+    </div>
+  </div>
+
+  <!-- Categories -->
+  <div class="categories-container">
+    <div class="categories-scroll">
+      <div class="category-chips">
+        <div
+          class="category-chip"
+          [class.active]="selectedCategory === 'all'"
+          (click)="onCategorySelect('all')"
+        >
+          <span>All Products</span>
+        </div>
+        <div
+          *ngFor="let category of categories"
+          class="category-chip"
+          [class.active]="selectedCategory === category.id.toString()"
+          (click)="onCategorySelect(category.id.toString())"
+        >
+          <span>{{category.name}}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="circular"></ion-spinner>
+    <p>Loading products...</p>
+  </div>
+
+  <!-- No Products Message -->
+  <div class="empty-category" *ngIf="!isLoading && products.length === 0">
+    <ion-icon
+      [name]="searchTerm.trim() !== '' ? 'search-outline' : 'bag-outline'"
+      size="large"
+      color="medium"
+    >
+    </ion-icon>
+    <h3 *ngIf="searchTerm.trim() !== ''">No Products Found</h3>
+    <h3 *ngIf="searchTerm.trim() === ''">No Products Available</h3>
+
+    <p *ngIf="searchTerm.trim() !== ''">
+      No products found matching "<strong>{{searchTerm}}</strong>"
+      <span *ngIf="selectedCategory !== 'all'"> in this category</span>.
+    </p>
+    <p *ngIf="searchTerm.trim() === '' && selectedCategory !== 'all'">
+      No products available in this category yet.
+    </p>
+    <p *ngIf="searchTerm.trim() === '' && selectedCategory === 'all'">
+      No products available at the moment.
+    </p>
+
+    <ion-button
+      fill="outline"
+      (click)="clearSearch()"
+      *ngIf="searchTerm.trim() !== ''"
+    >
+      Clear Search
+    </ion-button>
+    <ion-button
+      fill="outline"
+      (click)="selectedCategory = 'all'; loadFilteredProducts()"
+      *ngIf="searchTerm.trim() === '' && selectedCategory !== 'all'"
+    >
+      View All Products
+    </ion-button>
+  </div>
+
+  <!-- Products Grid -->
+  <div class="product-grid" *ngIf="!isLoading && products.length > 0">
+    <div class="product-row" *ngFor="let row of getProductRows()">
+      <div class="product-col" *ngFor="let product of row">
+        <div class="product-card">
+          <div class="product-image-container" (click)="viewProduct(product)">
+            <img
+              class="product-image"
+              [src]="getProductImage(product.image)"
+              [alt]="product.name"
+              (error)="onImageError($event, product)"
+            />
+            <div class="product-overlay">
+              <ion-icon name="eye-outline" class="view-icon"></ion-icon>
+            </div>
+          </div>
+
+          <div class="product-info" (click)="viewProduct(product)">
+            <div class="product-name">{{product.name}}</div>
+            <div class="product-category">{{product.category_name}}</div>
+
+            <div class="product-rating" *ngIf="product.rating">
+              <div class="stars">
+                <ion-icon
+                  *ngFor="let star of getStars(product.rating)"
+                  [name]="star === 1 ? 'star' : 'star-outline'"
+                  [class.filled]="star === 1"
+                >
+                </ion-icon>
+              </div>
+            </div>
+
+            <div class="product-price-container">
+              <div class="product-price">{{formatRupiah(product.price)}}</div>
+              <div
+                class="product-stock"
+                *ngIf="product.stock <= 10 && product.stock > 0"
+              >
+                Only {{product.stock}} left!
+              </div>
+              <div
+                class="product-stock out-of-stock"
+                *ngIf="product.stock === 0"
+              >
+                Out of Stock
+              </div>
+            </div>
+          </div>
+
+          <div class="product-actions">
+            <ion-button
+              fill="solid"
+              size="small"
+              class="add-to-cart-btn"
+              [disabled]="product.stock === 0"
+              (click)="addToCart(product, $event)"
+            >
+              <ion-icon name="cart-outline" slot="start"></ion-icon>
+              Add to Cart
+            </ion-button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</ion-content>

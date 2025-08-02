@@ -1,0 +1,12 @@
+# Allow access to image files
+<FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+    Allow from all
+</FilesMatch>
+
+# Set proper headers for images
+<IfModule mod_headers.c>
+    <FilesMatch "\.(jpg|jpeg|png|gif|webp)$">
+        Header set Access-Control-Allow-Origin "*"
+        Header set Cache-Control "public, max-age=86400"
+    </FilesMatch>
+</IfModule>

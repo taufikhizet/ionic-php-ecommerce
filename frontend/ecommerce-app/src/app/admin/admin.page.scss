@@ -1,0 +1,81 @@
+.admin-actions {
+  display: flex;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.modal-content {
+  height: 100%;
+}
+
+.modal-buttons {
+  margin-top: 20px;
+}
+
+// Modal specific styles
+ion-modal {
+  --height: auto;
+  --min-height: 300px;
+  --max-height: 90%;
+  --width: 100%;
+  --max-width: 500px;
+  --border-radius: 8px;
+}
+
+ion-modal ion-content {
+  --background: var(--ion-background-color, #fff);
+  --color: var(--ion-text-color, #000);
+}
+
+ion-modal ion-header {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+ion-modal ion-toolbar {
+  --background: var(--ion-color-primary);
+  --color: white;
+}
+
+ion-modal ion-title {
+  color: white;
+}
+
+ion-modal ion-button {
+  --color: white;
+}
+
+// Force modal content to be visible
+ion-modal .modal-wrapper {
+  background: white !important;
+  color: black !important;
+}
+
+ion-modal ion-list {
+  background: transparent;
+}
+
+ion-modal ion-item {
+  --background: transparent;
+  --color: var(--ion-text-color, #000);
+}
+
+ion-card {
+  margin: 8px;
+}
+
+ion-card-content p {
+  margin-bottom: 10px;
+  color: var(--ion-color-medium);
+}
+
+ion-badge {
+  margin-left: 8px;
+}
+
+ion-fab-button {
+  --background: var(--ion-color-primary);
+}
+
+.admin-actions ion-button {
+  flex: 1;
+}

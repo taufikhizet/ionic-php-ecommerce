@@ -1,0 +1,131 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-buttons slot="start">
+      <ion-button (click)="goBack()">
+        <ion-icon name="arrow-back"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+    <ion-title>Product Detail</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="shareProduct()" *ngIf="product">
+        <ion-icon name="share-outline"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <!-- Loading State -->
+  <div class="loading-container" *ngIf="isLoading">
+    <ion-spinner name="crescent"></ion-spinner>
+    <p>Loading product details...</p>
+  </div>
+
+  <!-- Product Detail Content -->
+  <div class="product-detail-container" *ngIf="!isLoading && product">
+    <!-- Product Image -->
+    <div class="product-image-section">
+      <div class="product-image-container">
+        <img 
+          [src]="getProductImage(product.image)" 
+          [alt]="product.name"
+          (error)="onImageError($event)"
+          class="product-image"
+        />
+        <div class="product-badge-container">
+          <div class="stock-badge" [class.out-of-stock]="product.stock === 0">
+            <span *ngIf="product.stock > 0">In Stock ({{product.stock}})</span>
+            <span *ngIf="product.stock === 0">Out of Stock</span>
+          </div>
+        </div>
+        <button 
+          class="like-button" 
+          [class.liked]="isLiked"
+          (click)="toggleLike()"
+        >
+          <ion-icon [name]="isLiked ? 'heart' : 'heart-outline'"></ion-icon>
+        </button>
+      </div>
+    </div>
+
+    <!-- Product Info -->
+    <div class="product-info-section">
+      <div class="product-header">
+        <h1 class="product-title">{{product.name}}</h1>
+        <p class="product-category" *ngIf="product.category_name">{{product.category_name}}</p>
+      </div>
+
+      <!-- Rating -->
+      <div class="product-rating" *ngIf="product.rating > 0">
+        <div class="stars">
+          <ion-icon 
+            *ngFor="let star of getStars(product.rating)"
+            [name]="star === 1 ? 'star' : 'star-outline'"
+            [class.filled]="star === 1"
+          ></ion-icon>
+        </div>
+      </div>
+
+      <!-- Price -->
+      <div class="price-section">
+        <div class="current-price">{{formatRupiah(product.price)}}</div>
+      </div>
+
+      <!-- Description -->
+      <div class="description-section">
+        <h3>Description</h3>
+        <p class="product-description">{{product.description}}</p>
+      </div>
+
+      <!-- Quantity Selector -->
+      <div class="quantity-section" *ngIf="product.stock > 0">
+        <h4>Quantity</h4>
+        <div class="quantity-selector">
+          <button 
+            class="quantity-btn decrease" 
+            (click)="decreaseQuantity()"
+            [disabled]="quantity <= 1"
+          >
+            <ion-icon name="remove"></ion-icon>
+          </button>
+          <span class="quantity-display">{{quantity}}</span>
+          <button 
+            class="quantity-btn increase" 
+            (click)="increaseQuantity()"
+            [disabled]="quantity >= product.stock"
+          >
+            <ion-icon name="add"></ion-icon>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Error State -->
+  <div class="error-container" *ngIf="!isLoading && !product">
+    <ion-icon name="alert-circle-outline"></ion-icon>
+    <h3>Product Not Found</h3>
+    <p>The product you're looking for could not be found.</p>
+    <ion-button (click)="goBack()" fill="outline">
+      Back to Shop
+    </ion-button>
+  </div>
+</ion-content>
+
+<!-- Fixed Bottom Actions -->
+<div class="bottom-actions" *ngIf="!isLoading && product">
+  <div class="price-display">
+    <span class="total-label">Total:</span>
+    <span class="total-price">{{formatRupiah(product.price * quantity)}}</span>
+  </div>
+  <ion-button 
+    class="add-to-cart-btn"
+    (click)="addToCart()"
+    [disabled]="product.stock === 0"
+    expand="block"
+  >
+    <ion-icon name="cart-outline" slot="start"></ion-icon>
+    <span *ngIf="product.stock > 0">Add {{quantity}} to Cart</span>
+    <span *ngIf="product.stock === 0">Out of Stock</span>
+  </ion-button>
+</div>

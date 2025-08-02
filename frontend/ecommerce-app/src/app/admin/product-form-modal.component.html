@@ -1,0 +1,141 @@
+<ion-header>
+  <ion-toolbar color="primary">
+    <ion-title>{{ isEditMode ? "Edit Product" : "Add New Product" }}</ion-title>
+    <ion-buttons slot="end">
+      <ion-button (click)="closeModal()" fill="clear">
+        <ion-icon name="close"></ion-icon>
+      </ion-button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content class="ion-padding">
+  <div class="debug-info">
+    <h3>Debug Info:</h3>
+    <p>Edit Mode: {{ isEditMode }}</p>
+    <p>Categories Count: {{ categories?.length }}</p>
+    <p>Product Name: {{ productForm?.name }}</p>
+  </div>
+
+  <ion-list>
+    <ion-item>
+      <ion-input
+        label="Product Name *"
+        labelPlacement="stacked"
+        [(ngModel)]="productForm.name"
+        placeholder="Enter product name"
+      >
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-textarea
+        label="Description"
+        labelPlacement="stacked"
+        [(ngModel)]="productForm.description"
+        placeholder="Enter product description"
+        rows="3"
+      >
+      </ion-textarea>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Price *"
+        labelPlacement="stacked"
+        type="number"
+        [(ngModel)]="productForm.price"
+        placeholder="0.00"
+      >
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Stock"
+        labelPlacement="stacked"
+        type="number"
+        [(ngModel)]="productForm.stock"
+        placeholder="0"
+      >
+      </ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Category *</ion-label>
+      <ion-select
+        [(ngModel)]="productForm.category_id"
+        placeholder="Select category"
+        [disabled]="isLoadingCategories"
+      >
+        <ion-select-option
+          *ngFor="let category of categories || []"
+          [value]="category?.id"
+        >
+          {{ category?.name }}
+        </ion-select-option>
+      </ion-select>
+      <ion-spinner
+        *ngIf="isLoadingCategories"
+        slot="end"
+        name="crescent"
+      ></ion-spinner>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>Image Upload</ion-label>
+      <input
+        type="file"
+        accept="image/*"
+        (change)="onImageSelected($event)"
+        #fileInput
+        style="display: none"
+      />
+      <ion-button fill="outline" slot="end" (click)="fileInput.click()">
+        Select Image
+      </ion-button>
+    </ion-item>
+
+    <!-- Image Preview -->
+    <ion-item *ngIf="imagePreview || productForm.image">
+      <div class="image-preview-container">
+        <ion-label color="primary">Image Preview:</ion-label>
+        <img
+          [src]="imagePreview || getImagePath(productForm.image)"
+          alt="Product Image"
+          class="image-preview"
+          (error)="onImageError($event)"
+        />
+        <ion-button
+          fill="clear"
+          color="danger"
+          size="small"
+          (click)="removeImage()"
+        >
+          <ion-icon name="trash" slot="icon-only"></ion-icon>
+          Remove Image
+        </ion-button>
+      </div>
+    </ion-item>
+
+    <ion-item>
+      <ion-input
+        label="Image Filename (Optional)"
+        labelPlacement="stacked"
+        [(ngModel)]="productForm.image"
+        placeholder="Will be auto-generated from uploaded file"
+        readonly
+      >
+      </ion-input>
+    </ion-item>
+  </ion-list>
+
+  <div class="modal-buttons ion-padding">
+    <ion-button expand="block" (click)="saveProduct()">
+      {{ isEditMode ? "Update Product" : "Create Product" }}
+    </ion-button>
+    <ion-button expand="block" fill="outline" (click)="closeModal()">
+      Cancel
+    </ion-button>
+  </div>
+</ion-content>

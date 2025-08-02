@@ -1,0 +1,125 @@
+<ion-header [translucent]="true">
+  <ion-toolbar>
+    <ion-title> Shopping Cart </ion-title>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [fullscreen]="true">
+  <ion-header collapse="condense">
+    <ion-toolbar>
+      <ion-title size="large">Shopping Cart</ion-title>
+    </ion-toolbar>
+  </ion-header>
+
+  <!-- Login Required Message -->
+  <div class="login-required" *ngIf="!isLoggedIn">
+    <ion-icon name="cart-outline" size="large"></ion-icon>
+    <h3>Login Required</h3>
+    <p>Please login to view your shopping cart</p>
+    <ion-button expand="block" (click)="goToLogin()"> Login </ion-button>
+  </div>
+
+  <!-- Empty Cart -->
+  <div
+    class="empty-cart"
+    *ngIf="isLoggedIn && cartItems.length === 0 && !isLoading"
+  >
+    <ion-icon name="cart-outline" size="large"></ion-icon>
+    <h3>Your cart is empty</h3>
+    <p>Add some products to get started</p>
+    <ion-button expand="block" (click)="continueShopping()">
+      Continue Shopping
+    </ion-button>
+  </div>
+
+  <!-- Cart Items -->
+  <div *ngIf="isLoggedIn && cartItems.length > 0">
+    <ion-list>
+      <ion-item-sliding *ngFor="let item of cartItems">
+        <ion-item>
+          <ion-thumbnail slot="start">
+            <ion-img
+              [src]="getProductImage(item.image)"
+              [alt]="item.name"
+            ></ion-img>
+          </ion-thumbnail>
+
+          <ion-label>
+            <h2>{{item.name}}</h2>
+            <p>${{item.price}} each</p>
+            <p>Stock: {{item.stock}}</p>
+          </ion-label>
+
+          <div slot="end" class="item-controls">
+            <div class="quantity-controls">
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="decreaseQuantity(item)"
+                [disabled]="item.quantity <= 1"
+              >
+                <ion-icon name="remove"></ion-icon>
+              </ion-button>
+
+              <span class="quantity">{{item.quantity}}</span>
+
+              <ion-button
+                fill="clear"
+                size="small"
+                (click)="increaseQuantity(item)"
+                [disabled]="item.quantity >= item.stock"
+              >
+                <ion-icon name="add"></ion-icon>
+              </ion-button>
+            </div>
+
+            <div class="subtotal">${{item.subtotal.toFixed(2)}}</div>
+          </div>
+        </ion-item>
+
+        <ion-item-options side="end">
+          <ion-item-option color="danger" (click)="removeItem(item)">
+            <ion-icon name="trash" slot="icon-only"></ion-icon>
+          </ion-item-option>
+        </ion-item-options>
+      </ion-item-sliding>
+    </ion-list>
+
+    <!-- Cart Summary -->
+    <ion-card class="cart-summary">
+      <ion-card-header>
+        <ion-card-title>Order Summary</ion-card-title>
+      </ion-card-header>
+
+      <ion-card-content>
+        <div class="summary-row">
+          <span>Subtotal ({{getTotalItems()}} items):</span>
+          <span>${{cartTotal.toFixed(2)}}</span>
+        </div>
+
+        <div class="summary-row">
+          <span>Shipping:</span>
+          <span>Free</span>
+        </div>
+
+        <div class="summary-row total">
+          <span><strong>Total:</strong></span>
+          <span><strong>${{cartTotal.toFixed(2)}}</strong></span>
+        </div>
+
+        <ion-button
+          expand="block"
+          color="primary"
+          class="checkout-btn"
+          (click)="proceedToCheckout()"
+          [disabled]="cartItems.length === 0"
+        >
+          Proceed to Checkout
+        </ion-button>
+      </ion-card-content>
+    </ion-card>
+  </div>
+
+  <!-- Loading -->
+  <ion-loading [isOpen]="isLoading" message="Loading cart..."> </ion-loading>
+</ion-content>
