@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -84,7 +84,8 @@ export class AdminPage implements OnInit {
     private router: Router,
     private toastController: ToastController,
     private alertController: AlertController,
-    private modalController: ModalController
+    private modalController: ModalController,
+    private cdr: ChangeDetectorRef
   ) {
     addIcons({ add, create, trash, arrowBack, close, shieldCheckmark, addCircleOutline });
   }
@@ -107,8 +108,10 @@ export class AdminPage implements OnInit {
   }
 
   loadProducts() {
+    console.log('Loading products...');
     this.adminService.getAllProducts().subscribe({
       next: (response) => {
+        console.log('Products loaded:', response.records);
         this.products = response.records;
       },
       error: (error) => {
@@ -378,12 +381,24 @@ export class AdminPage implements OnInit {
             // Then delete the product
             this.adminService.deleteProduct(product.id).subscribe({
               next: async (response) => {
+                console.log('Product deleted successfully:', response);
+                
+                // Remove product from local array immediately for instant UI update
+                const index = this.products.findIndex(p => p.id === product.id);
+                if (index > -1) {
+                  this.products.splice(index, 1);
+                  // Trigger change detection to update UI immediately
+                  this.cdr.detectChanges();
+                }
+                
                 const toast = await this.toastController.create({
                   message: 'Product deleted successfully',
                   duration: 2000,
                   color: 'success'
                 });
                 await toast.present();
+                
+                // Reload products as backup to ensure consistency
                 this.loadProducts();
               },
               error: async (error) => {
@@ -413,6 +428,22 @@ export class AdminPage implements OnInit {
   getCategoryName(categoryId: number): string {
     const category = this.categories.find(cat => cat.id === categoryId);
     return category ? category.name : 'Unknown';
+  }
+
+  formatPriceToRupiah(price: number | string): string {
+    if (!price) return 'Rp 0';
+    
+    // Convert to number if string
+    const numPrice = typeof price === 'string' ? parseFloat(price) : price;
+    
+    if (isNaN(numPrice)) return 'Rp 0';
+    
+    return new Intl.NumberFormat('id-ID', {
+      style: 'currency',
+      currency: 'IDR',
+      minimumFractionDigits: 0,
+      maximumFractionDigits: 0
+    }).format(numPrice);
   }
 
   goBack() {
